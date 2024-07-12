@@ -32,3 +32,8 @@ MAIN {
   masonry-template-tracks: repeat(auto-fill, minmax(8rem, 1fr) minmax(16rem, 2fr)) minmax(8rem, 1fr);
   gap: 1rem;
 }
+
+#bulb {
+  /* background: radial-gradient(#1E1E1E, #9198e5); */
+  /* background: radial-gradient(#e66465, #1E1E1E); */
+}

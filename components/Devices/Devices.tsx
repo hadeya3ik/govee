@@ -5,7 +5,7 @@ import { PiArrowDownRightThin } from "react-icons/pi";
 import { useState } from "react";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
 import useMeasure from "react-use-measure";
-import DeviceControls from './DeviceControls'
+import DeviceWidget from './DeviceWidget'
 import ResizablePanel from '@/components/ResizablePanel'
 import Button from '@/components/Button/index'
 
@@ -14,10 +14,6 @@ const LightBulbs = [
     {name: 'Tagarp', model : 'H6008', count : 1},
     {name: 'Tagarp', model : 'H6008', count : 2},
     {name: 'Tagarp', model : 'H6008', count : 3},
-    // {name: 'Tagarp', model : 'H6008', count : 4},
-    // {name: 'Tagarp', model : 'H6008', count : 5},
-    // {name: 'Tagarp', model : 'H6008', count : 6},
-    // {name: 'Tagarp', model : 'H6008', count : 7},
 ]
 
 const Device = ({name, model}) => {
@@ -46,7 +42,7 @@ const Device = ({name, model}) => {
             </div>
             <ResizablePanel>
                 {expand && (
-                <DeviceControls></DeviceControls>
+                <DeviceWidget></DeviceWidget>
                 )}
             </ResizablePanel>
         </div>

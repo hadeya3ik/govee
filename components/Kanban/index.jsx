@@ -1,12 +1,9 @@
 'use client'
 import React, { useState } from "react";
-import { FiPlus, FiTrash } from "react-icons/fi";
 import { motion } from "framer-motion";
-import { FaFire } from "react-icons/fa";
 import { PiPowerThin } from "react-icons/pi";
 import { PiArrowDownRightThin } from "react-icons/pi";
-import useMeasure from "react-use-measure";
-import DeviceControls from '@/components/Devices/DeviceControls'
+import Widget from '@/components/Widgets/Widgets'
 import ResizablePanel from '@/components/ResizablePanel'
 import Button from '@/components/Button/index'
 
@@ -27,24 +24,45 @@ export default function Kanban(){
 const Board = () => {
   const [cards, setCards] = useState(DEFAULT_CARDS);
   return (
-    <div className="flex w-full overflow-scroll">
-      <Column
-        column="backlog"
-        headingColor="text-neutral-500"
-        cards={cards}
-        setCards={setCards}
-      />
-      <Column
-        column="todo"
-        headingColor="text-yellow-200"
-        cards={cards}
-        setCards={setCards}
-      />
-      <Column
-        column="done"
-        cards={cards}
-        setCards={setCards}
-      />
+    <div>
+        <div className='pb-60'>
+          <h1 className='text-6xl pb-4'>Devices</h1>
+          <hr className='pb-4'/>
+          <div className='flex flex-col sm:flex-row sm:gap-4'>
+            <div className='flex-1 xl:flex gap-4'>
+                <div className='flex-1 gap-4'>
+                <Column
+                  column="backlog"
+                  cards={cards}
+                  setCards={setCards}
+                />
+                </div>
+                <div className='flex-1 gap-4'>
+                <Column
+                  column="todo"
+                  cards={cards}
+                  setCards={setCards}
+                />
+                </div>
+            </div>
+            <div className='flex-1 xl:flex gap-4'>
+                <div className='flex-1 gap-4'>
+                <Column
+                  column="done"
+                  cards={cards}
+                  setCards={setCards}
+                />
+                </div>
+                <div className='flex-1 gap-4'>
+                  <Column
+                    column="doing"
+                    cards={cards}
+                    setCards={setCards}
+                  />
+                </div>
+            </div>
+          </div>
+      </div>
     </div>
   );
 };
@@ -152,7 +170,7 @@ const Column = ({ cards, column, setCards }) => {
   const filteredCards = cards.filter((c) => c.column === column);
 
   return (
-    <div className="flex-1">
+    <div className="flex">
       <div
         onDrop={handleDragEnd}
         onDragOver={handleDragOver}
@@ -180,32 +198,10 @@ const Card = ({ title, id, column, handleDragStart }) => {
         layoutId={id}
         draggable="true"
         onDragStart={(e) => handleDragStart(e, { title, id })}
-        className="cursor-grab active:cursor-grabbing p-4 flex flex-col border justify-between rounded"
+        // className="cursor-grab mb-4 active:cursor-grabbing p-4 flex flex-col border justify-between rounded"
+        className="cursor-grab mb-4 active:cursor-grabbing"
       > 
-            <div>
-               <h2 className='text-5xl pb-4'>{title}</h2>
-                <h2 className='text-xl'>{id}</h2> 
-            </div>
-            <div className='justify-self-end self-end'>
-            <div className='border border-custom-main rounded-full w-fit mb-4'>
-                <Button>
-                    <PiPowerThin size={60}/>
-                </Button>   
-                </div>
-                <div
-                    className='border rounded-full w-fit'
-                    onClick={() => setExpand(!expand)}>
-                    <Button>
-                        <PiArrowDownRightThin size={60} />
-                    </Button>
-                    
-                </div>
-            </div>
-            <ResizablePanel>
-                {expand && (
-                <DeviceControls></DeviceControls>
-                )}
-            </ResizablePanel>
+          <Widget name={title} model={id}></Widget>
       </motion.div>
     </>
   );

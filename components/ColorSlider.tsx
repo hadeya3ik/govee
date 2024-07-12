@@ -30,8 +30,8 @@ function ColorSlider(props) {
   return (
     // THE CONTAINER FOR BOTH THE COLORS AND THE THUMB 
     <div className=''>
-      <div className='pb-4 flex gap-4'>
-      <label {...labelProps}>{label}</label>
+      {/* <div className='pl-4 flex gap-4'>
+        <label {...labelProps}>{label}</label>
         <output
           {...outputProps}
           style={{ flex: '', textAlign: 'end' }}
@@ -41,7 +41,7 @@ function ColorSlider(props) {
             locale
           )}
         </output>
-      </div>
+      </div> */}
     <div className='border cursor-grab rounded-full overflow-hidden relative'>
       {/* The track element holds the visible track line and the thumb. */}
       {/* THE COLOUR BACKGROUND  */}

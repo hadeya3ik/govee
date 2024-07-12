@@ -7,6 +7,7 @@ const colors = ['bg-purple-200', 'bg-orange-200', 'bg-blue-300', 'bg-red-100', '
 import ColorSlider from '@/components/ColorSlider'
 import {parseColor} from '@react-stately/color';
 import Button from '@/components/Button/index'
+import {motion} from 'framer-motion'
 
 function Example() {
   let [color, setColor] = React.useState(
@@ -67,18 +68,50 @@ function Example1() {
     </>
   );
 }
-const DeviceControls = () => {
+
+const itemVariants = {
+  initial: { opacity: 0 },
+  animate: { opacity: 1, transition: { duration: 0.9 } },
+  exit: { opacity: 0, transition: { duration: 0.9 } }
+};
+
+const containerVariants = {
+  animate: { 
+    transition: { 
+      staggerChildren: 0.3 
+    } 
+  }
+};
+
+const WidgetControls = () => {
     let [expand, setExpand] = useState(false);
     
     return (
-        <div className='flex flex-col justify-around gap-4 pt-4'>
+        <motion.div 
+          className='flex flex-col justify-around gap-4 pt-4'
+          variants={containerVariants}
+          initial="initial"
+          animate="animate"
+        >
+          <motion.div className="border-4 border-blue-500"
+              variants={itemVariants}
+            >
             <Slider/>
+          </motion.div>
+          <motion.div className="border-4 border-blue-500"
+              variants={itemVariants}
+            >
             <Slider/>
+          </motion.div>
+
+          <motion.div variants={itemVariants}>
             <ColorSlider channel="hue" defaultValue="hsl(0, 100%, 50%)">
             <ColorSlider channel="hue" defaultValue="hsl(0, 100%, 50%)" />
             </ColorSlider>
             <ColorSlider defaultValue="#7f0000" channel="red" />
-            <div className='grid grid-cols-4'>
+          </motion.div>
+
+          <motion.div variants={itemVariants} className='grid grid-cols-4'>
                 {colors.map((col, index) => <div key={index} className={`rounded-full w-[66px] h-[66px] ${col}`}> </div>)}
                 <div 
                     onClick={() => setExpand(!expand)}
@@ -86,17 +119,18 @@ const DeviceControls = () => {
                       {/* <Button></Button> */}
                     <PiPlusThin size={60}/>
                 </div>
-            </div>
-            <ResizablePanel>
-                {expand && (<div>
+          </motion.div>
+          <ResizablePanel>
+                {expand && (
+                  <motion.div variants={itemVariants}>
                     <Example/>
-                <Example1/>
-                </div>
+                    <Example1/>
+                  </motion.div>
                 )}
-            </ResizablePanel>
-        </div>
+          </ResizablePanel>
+        </motion.div>
         
     )
 }
 
-export default DeviceControls
+export default WidgetControls
