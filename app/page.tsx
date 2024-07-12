@@ -10,10 +10,10 @@ export default function Home() {
   return (
     <div>
       <Hero/>
-      <Devices/>
+      <Kanban/>
       <Groups/>
       <Automations/>
-      <Kanban/>
+      <Devices/>
     </div>
     );
 }

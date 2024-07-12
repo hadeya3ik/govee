@@ -1,5 +1,5 @@
 'use client'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { PiPowerThin } from "react-icons/pi";
 import { PiArrowDownRightThin } from "react-icons/pi";
 import { AnimatePresence, motion, MotionConfig } from "framer-motion";
@@ -17,11 +17,23 @@ const LightBulbs = [
 ]
 
 const Widget = ({name, model}) => {
-    const [color, setColor] = useState(parseColor('hsl(0, 100%, 0%)'));
-    let [expand, setExpand] = useState(false);
+    const [color, setColor] = useState(parseColor('hsl(0, 0%, 100%)'));
+    const [expand, setExpand] = useState(false);
+    const [bulbSwitch, setSwitch] = useState(false);
     
     const gradient = `radial-gradient(${color.toString('css')}, #1E1E1E)`;
 
+    useEffect(() => {
+        // Automatically collapse the widget when the bulb switch is turned off
+        // if (!bulbSwitch) {
+        //     setExpand(false);
+        // }
+        if (!bulbSwitch) {
+            setExpand(false);
+        }
+    }, [bulbSwitch]);
+
+    
     return (
         <div className='p-4 flex flex-col border justify-between rounded'>
             <div>
@@ -29,21 +41,32 @@ const Widget = ({name, model}) => {
                 <h2 className='text-xl'>{model}</h2> 
             </div>
             <div className='flex justify-between'>
-                <div id="bulb" 
-                    className='items-center self-center rounded-full h-[150px] w-[150px] ' 
-                    style={{ background: gradient }}
-                    >
-                </div>
+                <motion.div 
+                    className='items-center self-center rounded-full h-[150px] w-[150px] ' >
+                <AnimatePresence>
+                { bulbSwitch &&
+                    <motion.div 
+                        initial={{opacity:0}}
+                        animate={{opacity:1}}
+                        exit={{opacity:0}}
+                        id="bulb" 
+                        className='items-center self-center rounded-full h-[150px] w-[150px] ' 
+                        style={{ background: gradient }}>
+                    </motion.div>
+                }
+                </AnimatePresence>
+                </motion.div>
                 <div className='justify-self-end self-end'>
-                    <div className='border border-custom-main rounded-full w-fit mb-4'>
-                        <Button>
+                    <div className='border border-custom-main rounded-full w-fit mb-4'
+                    onClick={() => setSwitch(!bulbSwitch)}>
+                        <Button isActive={bulbSwitch} setIsActive={setSwitch}>
                             <PiPowerThin size={60}/>
                         </Button>   
                     </div>
                     <div
                         className='border rounded-full w-fit'
                         onClick={() => setExpand(!expand)}>
-                        <Button>
+                        <Button isActive={expand} setIsActive={setExpand}>
                             <PiArrowDownRightThin size={60} />
                         </Button>
                     </div>

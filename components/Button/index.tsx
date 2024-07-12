@@ -2,8 +2,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import gsap from 'gsap';
 
-export default function Index({ children, ...attributes }) {
-  const [isActive, setIsActive] = useState(false);
+export default function Index({ children, isActive, setIsActive, ...attributes }) {
+  // const [isActive, setIsActive] = useState(false);
   const circle = useRef(null);
   let timeline = useRef(null);
   let timeoutId = null;

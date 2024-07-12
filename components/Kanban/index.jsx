@@ -22,7 +22,7 @@ export default function Kanban(){
 
 
 const Board = () => {
-  const [cards, setCards] = useState(DEFAULT_CARDS);
+  const [cards, setCards] = useState(DEFAULT_DEVICES);
   return (
     <div>
         <div className='pb-60'>
@@ -32,14 +32,14 @@ const Board = () => {
             <div className='flex-1 xl:flex gap-4'>
                 <div className='flex-1 gap-4'>
                 <Column
-                  column="backlog"
+                  column={1}
                   cards={cards}
                   setCards={setCards}
                 />
                 </div>
                 <div className='flex-1 gap-4'>
                 <Column
-                  column="todo"
+                  column={2}
                   cards={cards}
                   setCards={setCards}
                 />
@@ -48,14 +48,14 @@ const Board = () => {
             <div className='flex-1 xl:flex gap-4'>
                 <div className='flex-1 gap-4'>
                 <Column
-                  column="done"
+                  column={3}
                   cards={cards}
                   setCards={setCards}
                 />
                 </div>
                 <div className='flex-1 gap-4'>
                   <Column
-                    column="doing"
+                    column={4}
                     cards={cards}
                     setCards={setCards}
                   />
@@ -188,7 +188,7 @@ const Column = ({ cards, column, setCards }) => {
   );
 };
 
-const Card = ({ title, id, column, handleDragStart }) => {
+const Card = ({ name, id, column, handleDragStart }) => {
   let [expand, setExpand] = useState(false);
   return (
     <>
@@ -197,11 +197,11 @@ const Card = ({ title, id, column, handleDragStart }) => {
         layout
         layoutId={id}
         draggable="true"
-        onDragStart={(e) => handleDragStart(e, { title, id })}
+        onDragStart={(e) => handleDragStart(e, { name, id })}
         // className="cursor-grab mb-4 active:cursor-grabbing p-4 flex flex-col border justify-between rounded"
         className="cursor-grab mb-4 active:cursor-grabbing"
       > 
-          <Widget name={title} model={id}></Widget>
+          <Widget name={name} model={id}></Widget>
       </motion.div>
     </>
   );
@@ -219,32 +219,10 @@ const DropIndicator = ({ beforeId, column }) => {
 };
 
 
-const DEFAULT_CARDS = [
-  // BACKLOG
-  { title: "Look", id: "1", column: "backlog" },
-  { title: "SOX", id: "2", column: "backlog" },
-  { title: "[SPIKE", id: "3", column: "backlog" },
-  { title: "Document", id: "4", column: "backlog" },
-  // TODO
-  {
-    title: "Research",
-    id: "5",
-    column: "todo",
-  },
-  { title: "Postmortem", id: "6", column: "todo" },
-  { title: "Sync", id: "7", column: "todo" },
-
-  // DOING
-  {
-    title: "Refactor ",
-    id: "8",
-    column: "doing",
-  },
-  { title: "Add", id: "9", column: "doing" },
-  // DONE
-  {
-    title: "Set",
-    id: "10",
-    column: "done",
-  },
+const DEFAULT_DEVICES = [
+  { name: "Bulb ", id: "1", column: 1 },
+  { name: "Bulb ", id: "2", column: 2 },
+  { name: "Bulb ", id: "3", column: 3 },
+  { name: "Bulb ", id: "4", column: 4 },
+  { name: "Bulb", id: "5", column: 1 },
 ];
