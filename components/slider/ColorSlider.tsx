@@ -5,10 +5,7 @@ import { useColorSliderState } from '@react-stately/color';
 import { useLocale } from '@react-aria/i18n';
 import { useFocusRing } from '@react-aria/focus';
 
-const TRACK_THICKNESS = 28;
-const THUMB_SIZE = 20;
-
-function ColorSlider(props) {
+export default function ColorSlider(props) {
   let { isDisabled } = props;
   let { locale } = useLocale();
   let state = useColorSliderState({ ...props, locale });
@@ -75,4 +72,4 @@ function ColorSlider(props) {
   );
 }
 
-export default ColorSlider;
+

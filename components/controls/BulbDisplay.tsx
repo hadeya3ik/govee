@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 
-const BulbDisplay = ({ color, volume }) => {
+const BulbDisplay = ({ color, brightness }) => {
   const gradient = `radial-gradient(#1E1E1E, ${color.toString('css')})`;
   // const gradient = `radial-gradient(${color.toString('css')}, #1E1E1E)`;
 
@@ -22,7 +22,7 @@ const BulbDisplay = ({ color, volume }) => {
           background: gradient, 
           // filter: `brightness(0.3)` 
           // filter: `brightness(${Math.max(volume / 100, 0.3)})` 
-          filter: `brightness(${(volume / 100 +  0.3)})` 
+          filter: `brightness(${(brightness / 100 +  0.3)})` 
         }}
       />
     </>

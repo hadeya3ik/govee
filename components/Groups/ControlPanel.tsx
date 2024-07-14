@@ -1,6 +1,6 @@
 'use client'
 
-import LightControls from '@/components/Widgets/LightControls';
+import LightControls from '@/components/controls/LightControls';
 import { parseColor } from '@react-stately/color';
 import { useState, useEffect } from "react";
 

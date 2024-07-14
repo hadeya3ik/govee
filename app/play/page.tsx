@@ -1,8 +1,8 @@
 'use client'
 import React, {useState} from 'react'
 import { motion } from "framer-motion";
-import Link3D from '@/components/Link3d/index'
-import Button from '@/components/Button/index'
+import Link3D from '@/components/common/Link3D/index'
+import Button from '@/components/common/Button/index'
 import Control from '@/components/control'
 const itemIds = [0, 1, 2, 3, 4];
 const variants = {

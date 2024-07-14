@@ -1,8 +1,8 @@
 "use client";
 import React, {use, useState} from "react";
-import Link3D from "../Link3d/index";
+import Link3D from "../common/Link3D/index";
 import { Switch as AriaSwitch } from "react-aria-components";
-import ResizablePanel from '@/components/ResizablePanel'
+import ResizablePanel from '@/components/common/ResizablePanel'
 import GroupingForm from '@/components/Groups/GroupingForm'
 
 function Switch() {

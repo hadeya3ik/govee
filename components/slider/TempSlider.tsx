@@ -3,7 +3,7 @@
 import * as Slider from '@radix-ui/react-slider';
 import { useState, useEffect } from 'react';
 
-export default function WhiteSlider({ value, onChange }) {
+export default function TempSlider({ value, onChange }) {
   const [volume, setVolume] = useState(50);
   const [color, setColor] = useState('rgba(255,204,151,1)');
 
@@ -31,7 +31,7 @@ export default function WhiteSlider({ value, onChange }) {
     setVolume(v[0]);
     const newColor = getColorFromPosition(v[0]);
     setColor(newColor);
-    onChange(newColor); // Invoke the onChange callback with the new color
+    onChange(newColor); 
   };
 
   return (

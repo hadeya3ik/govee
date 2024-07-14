@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { PiPowerThin } from "react-icons/pi";
 import { PiArrowDownRightThin } from "react-icons/pi";
 import { AnimatePresence, motion } from "framer-motion";
-import ResizablePanel from '@/components/ResizablePanel';
-import Button from '@/components/Button/index';
-import LightControls from '@/components/Widgets/LightControls';
+import ResizablePanel from '@/components/common/ResizablePanel';
+import Button from '@/components/common/Button/index';
+import LightControls from '@/components/controls/LightControls';
 import { parseColor } from '@react-stately/color';
-import BulbDisplay from '@/components/BulbDisplay';
+import BulbDisplay from '@/components/controls/BulbDisplay';
 
 const LightBulbs = [
     { name: 'Tagarp', model: 'H6008', count: 0 }, 
@@ -22,7 +22,7 @@ const Widget = ({ name, model }) => {
     const [expand, setExpand] = useState(false);
     const [bulbSwitch, setSwitch] = useState(false);
     const [lastUpdated, setLastUpdated] = useState('color');
-    const [volume, setVolume] = useState(50); 
+    const [brightness, setBrightness] = useState(50); 
 
     useEffect(() => {
         if (!bulbSwitch) {
@@ -49,7 +49,7 @@ const Widget = ({ name, model }) => {
                     className='items-center self-center rounded-full h-[150px] w-[150px]'>
                     <AnimatePresence>
                         {bulbSwitch && (
-                            <BulbDisplay color={lastUpdated === 'color' ? color : temp} volume={volume} />
+                            <BulbDisplay color={lastUpdated === 'color' ? color : temp} brightness={brightness} />
                         )}
                     </AnimatePresence>
                 </motion.div>
@@ -71,7 +71,7 @@ const Widget = ({ name, model }) => {
             </div>
             <ResizablePanel>
                 {expand && (
-                    <LightControls color={color} setColor={setColor} temp={temp} setTemp={setTemp} volume={volume} setVolume={setVolume}/>
+                    <LightControls color={color} setColor={setColor} temp={temp} setTemp={setTemp} brightness={brightness}  setBrightness={setBrightness}/>
                 )}
             </ResizablePanel>
         </div>

@@ -1,11 +1,9 @@
 'use client'
 import React, { useState } from 'react'
-import Slider from '@/components/CustomSlider';
-import ResizablePanel from '@/components/ResizablePanel'
-import ColorSlider from '@/components/ColorSlider'
-import Button from '@/components/Button/index'
+import TempSlider from '@/components/slider/TempSlider';
+import BrightnessSlider from '@/components/slider/BrightnessSlider';
+import ColorSlider from '@/components/slider/ColorSlider'
 import { motion, AnimatePresence } from 'framer-motion'
-import WhiteSlider from '@/components/WhiteSlider'
 
 const itemVariants = {
   initial: { 
@@ -45,7 +43,7 @@ const containerVariants = {
   }
 };
 
-const LightControls = ({ color, setColor, temp, setTemp, volume, setVolume }) => {
+const LightControls = ({ color, setColor, temp, setTemp, brightness, setBrightness }) => {
     return (
         <motion.div 
           className='flex flex-col justify-around gap-4 pt-4'
@@ -55,12 +53,12 @@ const LightControls = ({ color, setColor, temp, setTemp, volume, setVolume }) =>
         >
           <motion.div
               variants={itemVariants}>
-            <Slider volume={volume} setVolume={setVolume}/>
+            <BrightnessSlider value={brightness} onChange={setBrightness}/>
           </motion.div>
           <motion.div
               variants={itemVariants}
             >
-            <WhiteSlider 
+            <TempSlider 
             value={temp}
             onChange={setTemp}
             />
@@ -73,14 +71,6 @@ const LightControls = ({ color, setColor, temp, setTemp, volume, setVolume }) =>
                 onChange={setColor}
             />
           </motion.div>
-          {/* <motion.div
-            variants={itemVariants}>
-            <ColorSlider
-                channel="lightness"
-                value={color}
-                onChange={setColor}
-            />
-          </motion.div> */}
           <motion.div
             variants={itemVariants}>
             <ColorSlider

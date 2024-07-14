@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import Link3D from './Link3d/index'
+import Link3D from './common/Link3D/index'
 
 const LightBulbs = [
     {name: 'Welcome Home', hr : '20', min : '5 5'},

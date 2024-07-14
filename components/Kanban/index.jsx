@@ -3,9 +3,7 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { PiPowerThin } from "react-icons/pi";
 import { PiArrowDownRightThin } from "react-icons/pi";
-import Widget from '@/components/Widgets/Widgets'
-import ResizablePanel from '@/components/ResizablePanel'
-import Button from '@/components/Button/index'
+import Widget from '@/components/Kanban/Widgets'
 
 const LightBulbs = [
     {name: 'Tagarp', model : 'H6008', count : 0}, 

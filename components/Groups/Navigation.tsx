@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import TabNavigation from './TabNavigation';
-import BulbDisplay from '@/components/BulbDisplay';
+import BulbDisplay from '@/components/controls/BulbDisplay';
 import ControlPanel from '@/components/Groups/ControlPanel';
 
 const tabsData = [

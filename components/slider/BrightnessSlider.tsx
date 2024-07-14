@@ -3,15 +3,15 @@
 import * as Slider from '@radix-ui/react-slider';
 import { useState } from 'react';
 
-export default function CustomSlider({volume, setVolume}) {
+export default function BrightnessSlider({value, onChange}) {
 
   return (
     <div className="flex items-center">
       <Slider.Root 
-        value={[volume]}
+        value={[value]}
         min={0}
         max={100}
-        onValueChange={(v) => setVolume(v[0])}
+        onValueChange={(v) => onChange(v[0])}
         className="relative flex w-full grow cursor-grab touch-none items-center active:cursor-grabbing"
       >
         <div className="flex h-[40px] grow">

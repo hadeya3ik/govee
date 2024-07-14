@@ -1,5 +1,4 @@
 import Hero from '@/components/Hero'
-import Devices from '@/components/Devices/Devices'
 import Groups from '@/components/Groups/Groups'
 import Automations from '@/components/Automations';
 import Kanban from '@/components/Kanban/index';
@@ -13,7 +12,6 @@ export default function Home() {
       <Kanban/>
       <Groups/>
       <Automations/>
-      <Devices/>
     </div>
     );
 }
