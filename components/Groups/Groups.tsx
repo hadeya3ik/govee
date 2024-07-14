@@ -1,7 +1,9 @@
 "use client";
-import React from "react";
-import Link3D from "./Link3d/index";
+import React, {use, useState} from "react";
+import Link3D from "../Link3d/index";
 import { Switch as AriaSwitch } from "react-aria-components";
+import ResizablePanel from '@/components/ResizablePanel'
+import GroupingForm from '@/components/Groups/GroupingForm'
 
 function Switch() {
   return (
@@ -24,19 +26,25 @@ const LightBulbs = [
 ]
 
 const Group = ({name, isLast}) => {
+    const [expand, setExpand] = useState(false);
     return (
         <div className=''>
             <div className='flex justify-between items-center pb-4'>
                <h2 className='text-5xl'>{name}</h2>
                <div className='flex gap-4'>
                     <Switch/>
-                    
-                    <div className='text-3xl border rounded-full h-min p-2 px-6'>
+                    <div 
+                      onClick={()=>setExpand(!expand)}
+                      className='text-3xl border rounded-full h-min p-2 px-6'>
                       <Link3D>edit</Link3D>
                     </div> 
-                    
                 </div>
             </div>
+            <ResizablePanel>
+                {expand && (
+                 <GroupingForm></GroupingForm>
+                )}
+            </ResizablePanel>
             {!isLast && <hr className='pb-4 w-full'/>}
         </div>
     )

@@ -3,7 +3,7 @@ import React, {useState} from 'react'
 import { motion } from "framer-motion";
 import Link3D from '@/components/Link3d/index'
 import Button from '@/components/Button/index'
-
+import Control from '@/components/control'
 const itemIds = [0, 1, 2, 3, 4];
 const variants = {
   open: {
@@ -50,19 +50,14 @@ function play() {
   // const [a,seta] = useState(false);
   return (
     <main className='h-screen'>
-      {/* <h1 className='text-[20vw]'>govee</h1>
+      <h1 className='text-[20vw]'>govee</h1>
       <Link3D >LINK</Link3D>
       <div className='w-[300px] h-[50px]'>
         <Button>
           <h1 className='p-4'>BUTTON
           </h1></Button>
-      </div> */}
-
-      <motion.ul variants={variants}>
-          {itemIds.map(i => (
-            <MenuItem i={i} key={i} />
-          ))}
-        </motion.ul>
+      </div>
+      <Control/>
     </main>
   )
 }

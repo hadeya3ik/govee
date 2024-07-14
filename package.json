@@ -15,6 +15,7 @@
     "@mui/styled-engine-sc": "^6.0.0-alpha.18",
     "@radix-ui/react-slider": "^1.2.0",
     "@react-spectrum/color": "^3.0.0-beta.34",
+    "chroma-js": "^2.4.2",
     "gsap": "^3.12.5",
     "heroicons": "^2.1.4",
     "next": "14.2.4",

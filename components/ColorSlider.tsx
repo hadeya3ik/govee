@@ -42,14 +42,14 @@ function ColorSlider(props) {
           )}
         </output>
       </div> */}
-    <div className='border cursor-grab rounded-full overflow-hidden relative'>
+    <div className='cursor-grab rounded-full overflow-hidden relative'>
       {/* The track element holds the visible track line and the thumb. */}
       {/* THE COLOUR BACKGROUND  */}
 
       <div
         {...trackProps}
         ref={trackRef}
-        className='h-[60px] w-full'
+        className='h-[40px] w-full flex '
         style={{
           ...trackProps.style,
           background: isDisabled ? 'rgb(142, 142, 142)' : trackProps.style.background
@@ -57,11 +57,10 @@ function ColorSlider(props) {
       >
         <div
           // THE SLIDER THUMB
-          className='block border-white h-full w-[4px] border-2 absolute'
+          className='border-black w-[30px] h-[30px] border-2 rounded-full self-center items-center'
           {...thumbProps}
           style={{
             ...thumbProps.style,
-            top: '0px',
             transform: 'translateX(-50%)',
             background: isDisabled
               ? 'rgb(142, 142, 142)'

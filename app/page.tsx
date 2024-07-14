@@ -1,9 +1,9 @@
 import Hero from '@/components/Hero'
 import Devices from '@/components/Devices/Devices'
-import Groups from '@/components/Groups'
+import Groups from '@/components/Groups/Groups'
 import Automations from '@/components/Automations';
 import Kanban from '@/components/Kanban/index';
-import Navigation from '@/components/Navigation';
+// import Navigation from '@/components/Navigation';
 
 
 export default function Home() {
