@@ -1,9 +1,7 @@
 'use client'
 
 import { useState } from "react";
-import TabNavigation from './TabNavigation';
-import BulbDisplay from '@/components/controls/BulbDisplay';
-import ControlPanel from '@/components/Groups/ControlPanel';
+import TabNavigation from '../common/NavigationBar';
 
 const tabsData = [
   { id: "1", label: "Bulb 1", color: "red" },
@@ -13,15 +11,13 @@ const tabsData = [
   { id: "5", label: "Bulb 5", color: "red" },
 ];
 
-export default function Navigation() {
+export default function GroupContent() {
   const [tabs, setTabs] = useState(tabsData);
   const [activeTab, setActiveTab] = useState(tabs[0].id);
 
   return (
     <div>
        <TabNavigation tabs={tabs} activeTab={activeTab} setActiveTab={setActiveTab} />
-      <BulbDisplay color={tabs.find(tab => tab.id === activeTab).color} />
-      <ControlPanel tabs={tabs} activeTab={activeTab} setTabs={setTabs} />
     </div>
   );
 }

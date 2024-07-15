@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 
-const TabNavigation = ({ tabs, activeTab, setActiveTab }) => {
+const NavigationBar = ({ tabs, activeTab, setActiveTab }) => {
   return (
     <div className="flex space-x-1 border-2 w-fit rounded-full border-custom-main p-2">
       {tabs.map((tab) => (
@@ -31,4 +31,4 @@ const TabNavigation = ({ tabs, activeTab, setActiveTab }) => {
   );
 };
 
-export default TabNavigation;
+export default NavigationBar;
