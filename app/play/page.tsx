@@ -1,65 +1,59 @@
 'use client'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import { motion } from "framer-motion";
 import Link3D from '@/components/common/Link3D/index'
 import Button from '@/components/common/Button/index'
-import Control from '@/components/control'
-const itemIds = [0, 1, 2, 3, 4];
-const variants = {
-  open: {
-    transition: { staggerChildren: 0.07, delayChildren: 0.2 }
-  },
-  closed: {
-    transition: { staggerChildren: 0.05, staggerDirection: -1 }
-  }
-};
+import NavigationBar from '@/components/common/NavigationBar';
+import LightControls from '@/components/controls/LightControls';
+import { parseColor } from '@react-stately/color';
+import BulbDisplay from '@/components/controls/BulbDisplay';
 
-const colors = ["#FF008C", "#D309E1", "#9C1AFF", "#7700FF", "#4400FF"];
-
-
-const variants1 = {
-  open: {
-    // y: 0,
-    opacity: 1,
-    // transition: {
-    //   y: { stiffness: 1000, velocity: -100 }
-    // }
-  },
-  closed: {
-    // y: 50,
-    opacity: 0,
-    // transition: {
-    //   y: { stiffness: 1000 }
-    // }
-  }
-};
-
-const MenuItem = ({ i }) => {
-  const style = { border: `2px solid ${colors[i]}` };
-  return (
-    <motion.li
-      variants={variants}
-    >
-      <div className="text-placeholder" style={style} />
-    </motion.li>
-  );
-};
-
+const items = [
+  { id: '8', text: 'Bulb 1', checked: false },
+  { id: '9', text: 'Bulb 2', checked: false },
+  { id: '10', text: 'Bulb 3', checked: false },
+];
 
 function play() {
-  // const [a,seta] = useState(false);
+  const [activeTab, setActiveTab] = useState(items[0].id);
+  
   return (
     <main className='h-screen'>
-      <h1 className='text-[20vw]'>govee</h1>
-      <Link3D >LINK</Link3D>
-      <div className='w-[300px] h-[50px]'>
-        <Button>
-          <h1 className='p-4'>BUTTON
-          </h1></Button>
-      </div>
-      <Control/>
+      <NavigationBar tabs={items} activeTab={activeTab} setActiveTab={setActiveTab} />
+      {/* <Widget/> */}
     </main>
   )
 }
+
+const Widget = () => {
+  const [color, setColor] = useState(parseColor('hsl(329, 75%, 56%)'));
+  const [temp, setTemp] = useState(parseColor('rgba(255,204,151,1)'));
+  const [expand, setExpand] = useState(false);
+  const [bulbSwitch, setSwitch] = useState(false);
+  const [lastUpdated, setLastUpdated] = useState('color');
+  const [brightness, setBrightness] = useState(50); 
+
+  useEffect(() => {
+      if (!bulbSwitch) {
+          setExpand(false);
+      }
+  }, [bulbSwitch]);
+
+  useEffect(() => {
+      setLastUpdated('color');
+  }, [color]);
+
+  useEffect(() => {
+      setLastUpdated('temp');
+  }, [temp]);
+
+  return (
+    <>
+      <LightControls color={color} setColor={setColor} temp={temp} setTemp={setTemp} brightness={brightness}  setBrightness={setBrightness}/>
+      <BulbDisplay color={lastUpdated === 'color' ? color : temp} brightness={brightness} />
+    </>
+  )
+}
+
 
 export default play

@@ -11,7 +11,6 @@ function GroupForm() {
         </div>
             <h1 className='text-xl'>Add a Bulb</h1>
         </div>
-        <CheckBox/>
     </div>
   )
 }
