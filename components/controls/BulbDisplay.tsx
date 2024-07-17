@@ -6,9 +6,9 @@ const BulbDisplay = ({ color, brightness }) => {
   const gradient = `radial-gradient(#1E1E1E, ${color.toString('css')})`;
   // const gradient = `radial-gradient(${color.toString('css')}, #1E1E1E)`;
 
-  useEffect(() => {
-    console.log(color.toString('css'));
-  }, [color]);
+  // useEffect(() => {
+  //   console.log(color.toString('css'));
+  // }, [color]);
 
   return (
     <>

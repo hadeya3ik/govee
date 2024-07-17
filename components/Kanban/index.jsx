@@ -5,19 +5,35 @@ import { PiPowerThin } from "react-icons/pi";
 import { PiArrowDownRightThin } from "react-icons/pi";
 import Widget from '@/components/Kanban/Widgets'
 
-const LightBulbs = [
-    {name: 'Tagarp', model : 'H6008', count : 0}, 
-    {name: 'Tagarp', model : 'H6008', count : 1},
-    {name: 'Tagarp', model : 'H6008', count : 2},
-    {name: 'Tagarp', model : 'H6008', count : 3},
-]
+const DEFAULT_DEVICES = [
+  {
+    "deviceName": "FADO",
+    "id" : 1,
+    "sku": "H6008",
+    "device": "86:5C:60:74:F4:D7:E1:3E",
+    "column" : 1
+    }, 
+    {
+    "deviceName": "LAUTERS",
+    "id" : 2,
+    "sku": "H6008",
+    "device": "B5:71:60:74:F4:D4:2A:EE",
+    "column" : 2
+    },
+    {
+    "deviceName": "TÅGARP",
+    "id" : 3,
+    "sku": "H6008",
+    "device": "68:B8:60:74:F4:D7:8E:7C",
+    "column" : 3
+  },
+];
 
 export default function Kanban(){
   return (
       <Board />
   );
 };
-
 
 const Board = () => {
   const [cards, setCards] = useState(DEFAULT_DEVICES);
@@ -186,7 +202,7 @@ const Column = ({ cards, column, setCards }) => {
   );
 };
 
-const Card = ({ name, id, column, handleDragStart }) => {
+const Card = ({ deviceName, device, sku, id, column, handleDragStart }) => {
   let [expand, setExpand] = useState(false);
   return (
     <>
@@ -199,7 +215,7 @@ const Card = ({ name, id, column, handleDragStart }) => {
         // className="cursor-grab mb-4 active:cursor-grabbing p-4 flex flex-col border justify-between rounded"
         className="cursor-grab mb-4 active:cursor-grabbing"
       > 
-          <Widget name={name} model={id}></Widget>
+          <Widget deviceName={deviceName} device={device} sku={sku} model={id}></Widget>
       </motion.div>
     </>
   );
@@ -215,12 +231,3 @@ const DropIndicator = ({ beforeId, column }) => {
     />
   );
 };
-
-
-const DEFAULT_DEVICES = [
-  { name: "Bulb ", id: "1", column: 1 },
-  { name: "Bulb ", id: "2", column: 2 },
-  { name: "Bulb ", id: "3", column: 3 },
-  { name: "Bulb ", id: "4", column: 4 },
-  { name: "Bulb", id: "5", column: 1 },
-];

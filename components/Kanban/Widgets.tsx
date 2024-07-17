@@ -8,22 +8,35 @@ import Button from '@/components/common/Button/index';
 import LightControls from '@/components/controls/LightControls';
 import { parseColor } from '@react-stately/color';
 import BulbDisplay from '@/components/controls/BulbDisplay';
+import axios from 'axios';
 
-const LightBulbs = [
-    { name: 'Tagarp', model: 'H6008', count: 0 }, 
-    { name: 'Tagarp', model: 'H6008', count: 1 },
-    { name: 'Tagarp', model: 'H6008', count: 2 },
-    { name: 'Tagarp', model: 'H6008', count: 3 },
-];
+async function toggleLight(sku, device, value) {
+    try {
+      const req = await axios.post("http://localhost:8000/control", {
+        sku,
+        device, 
+        value
+      });
+      console.log('Response:', req.data);
+    } catch (error) {
+      if (error.response) {
+        alert(`Error: ${error.response.status} - ${error.response.data}`);
+      } else {
+        alert('Error toggling the light');
+      }
+      console.error(error);
+    }
+}
+  
 
-const Widget = ({ name, model }) => {
+const Widget = ({ deviceName, device, sku, }) => {
     const [color, setColor] = useState(parseColor('hsl(329, 75%, 56%)'));
     const [temp, setTemp] = useState(parseColor('rgba(255,204,151,1)'));
     const [expand, setExpand] = useState(false);
     const [bulbSwitch, setSwitch] = useState(false);
     const [lastUpdated, setLastUpdated] = useState('color');
     const [brightness, setBrightness] = useState(50); 
-
+    
     useEffect(() => {
         if (!bulbSwitch) {
             setExpand(false);
@@ -38,11 +51,16 @@ const Widget = ({ name, model }) => {
         setLastUpdated('temp');
     }, [temp]);
 
+    const handleSwitch = () => {
+        setSwitch(!bulbSwitch);
+        toggleLight(sku,device, bulbSwitch ? 0 : 1 );
+    }
+
     return (
         <div className='p-4 flex flex-col border justify-between rounded'>
             <div>
-                <h2 className='text-5xl pb-4'>{name}</h2>
-                <h2 className='text-xl'>{model}</h2>
+                <h2 className='text-5xl pb-4'>{deviceName}</h2>
+                <h2 className='text-xl'>{sku}</h2>
             </div>
             <div className='flex justify-between'>
                 <motion.div 
@@ -55,7 +73,7 @@ const Widget = ({ name, model }) => {
                 </motion.div>
                 <div className='justify-self-end self-end'>
                     <div className='border border-custom-main rounded-full w-fit mb-4'
-                        onClick={() => setSwitch(!bulbSwitch)}>
+                        onClick={() => handleSwitch()}>
                         <Button isActive={bulbSwitch} setIsActive={setSwitch}>
                             <PiPowerThin size={60} />
                         </Button>
@@ -71,7 +89,7 @@ const Widget = ({ name, model }) => {
             </div>
             <ResizablePanel>
                 {expand && (
-                    <LightControls color={color} setColor={setColor} temp={temp} setTemp={setTemp} brightness={brightness}  setBrightness={setBrightness}/>
+                    <LightControls device={device} sku={sku} color={color} setColor={setColor} temp={temp} setTemp={setTemp} brightness={brightness} setBrightness={setBrightness}/>
                 )}
             </ResizablePanel>
         </div>

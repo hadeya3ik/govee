@@ -2,8 +2,28 @@
 
 import * as Slider from '@radix-ui/react-slider';
 import { useState, useEffect } from 'react';
+import axios from 'axios';
 
-export default function TempSlider({ value, onChange }) {
+async function colorTemprature(sku, device, value) {
+  try {
+    const req = await axios.post("http://localhost:8000/temp", {
+      sku, 
+      device,
+      value
+    });
+    console.log('Response:', req.data);
+  } catch (error) {
+    if (error.response) {
+      alert(`Error: ${error.response.status} - ${error.response.data}`);
+    } else {
+      alert('Error toggling the light');
+    }
+    console.error(error);
+  }
+}
+
+
+export default function TempSlider({ sku, device, value, onChange }) {
   const [volume, setVolume] = useState(50);
   const [color, setColor] = useState('rgba(255,204,151,1)');
 
@@ -28,8 +48,11 @@ export default function TempSlider({ value, onChange }) {
   };
 
   const handleChange = (v) => {
+    console.log(v[0]);
     setVolume(v[0]);
     const newColor = getColorFromPosition(v[0]);
+    const mappedValue = 2000 + (v[0] / 100) * (9000 - 2000); // Map 0-100 to 2000-9000
+    colorTemprature(sku, device, mappedValue);
     setColor(newColor);
     onChange(newColor); 
   };
@@ -37,6 +60,8 @@ export default function TempSlider({ value, onChange }) {
   return (
     <div className="flex flex-col items-center">
       <Slider.Root
+      min={0}
+      max={100}
         value={[volume]}
         onValueChange={handleChange}
         className="relative flex w-full grow cursor-grab touch-none items-center active:cursor-grabbing"
@@ -55,6 +80,7 @@ export default function TempSlider({ value, onChange }) {
       {/* <div className="mt-2">
         Current Color: <span style={{ color: color }}>{color}</span>
       </div> */}
+      <div>{volume}</div>
     </div>
   );
 }
