@@ -20,8 +20,6 @@ const BulbDisplay = ({ color, brightness }) => {
         className='items-center self-center rounded-full h-[150px] w-[150px]'
         style={{ 
           background: gradient, 
-          // filter: `brightness(0.3)` 
-          // filter: `brightness(${Math.max(volume / 100, 0.3)})` 
           filter: `brightness(${(brightness / 100 +  0.3)})` 
         }}
       />

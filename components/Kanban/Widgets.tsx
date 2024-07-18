@@ -8,26 +8,7 @@ import Button from '@/components/common/Button/index';
 import LightControls from '@/components/controls/LightControls';
 import { parseColor } from '@react-stately/color';
 import BulbDisplay from '@/components/controls/BulbDisplay';
-import axios from 'axios';
-
-async function toggleLight(sku, device, value) {
-    try {
-      const req = await axios.post("http://localhost:8000/control", {
-        sku,
-        device, 
-        value
-      });
-      console.log('Response:', req.data);
-    } catch (error) {
-      if (error.response) {
-        alert(`Error: ${error.response.status} - ${error.response.data}`);
-      } else {
-        alert('Error toggling the light');
-      }
-      console.error(error);
-    }
-}
-  
+import {toggleLight} from '@/api/index'
 
 const Widget = ({ deviceName, device, sku, }) => {
     const [color, setColor] = useState(parseColor('hsl(329, 75%, 56%)'));
@@ -55,6 +36,8 @@ const Widget = ({ deviceName, device, sku, }) => {
         setSwitch(!bulbSwitch);
         toggleLight(sku,device, bulbSwitch ? 0 : 1 );
     }
+
+    const lightProps = {device, sku, color, setColor, temp, setTemp, brightness, setBrightness};
 
     return (
         <div className='p-4 flex flex-col border justify-between rounded'>
@@ -89,7 +72,7 @@ const Widget = ({ deviceName, device, sku, }) => {
             </div>
             <ResizablePanel>
                 {expand && (
-                    <LightControls device={device} sku={sku} color={color} setColor={setColor} temp={temp} setTemp={setTemp} brightness={brightness} setBrightness={setBrightness}/>
+                    <LightControls {...lightProps}/>
                 )}
             </ResizablePanel>
         </div>

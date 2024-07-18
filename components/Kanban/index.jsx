@@ -203,7 +203,7 @@ const Column = ({ cards, column, setCards }) => {
 };
 
 const Card = ({ deviceName, device, sku, id, column, handleDragStart }) => {
-  let [expand, setExpand] = useState(false);
+  const widgetProps = { deviceName, device, sku};
   return (
     <>
       <DropIndicator beforeId={id} column={column} />
@@ -215,7 +215,7 @@ const Card = ({ deviceName, device, sku, id, column, handleDragStart }) => {
         // className="cursor-grab mb-4 active:cursor-grabbing p-4 flex flex-col border justify-between rounded"
         className="cursor-grab mb-4 active:cursor-grabbing"
       > 
-          <Widget deviceName={deviceName} device={device} sku={sku} model={id}></Widget>
+        <Widget {...widgetProps} />
       </motion.div>
     </>
   );

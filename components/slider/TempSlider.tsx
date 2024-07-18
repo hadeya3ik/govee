@@ -2,26 +2,7 @@
 
 import * as Slider from '@radix-ui/react-slider';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
-
-async function colorTemprature(sku, device, value) {
-  try {
-    const req = await axios.post("http://localhost:8000/temp", {
-      sku, 
-      device,
-      value
-    });
-    console.log('Response:', req.data);
-  } catch (error) {
-    if (error.response) {
-      alert(`Error: ${error.response.status} - ${error.response.data}`);
-    } else {
-      alert('Error toggling the light');
-    }
-    console.error(error);
-  }
-}
-
+import {colorTemprature} from '@/api/index';
 
 export default function TempSlider({ sku, device, value, onChange }) {
   const [volume, setVolume] = useState(50);
@@ -32,9 +13,9 @@ export default function TempSlider({ sku, device, value, onChange }) {
   }, [volume]);
 
   const getColorFromPosition = (position) => {
-    const startColor = [255, 223, 191]; // rgba(255,204,151,1)
-    const midColor = [255, 255, 255]; // rgba(255,255,255,1)
-    const endColor = [196, 229, 235]; // rgba(136,203,215,1)
+    const startColor = [255, 223, 191];
+    const midColor = [255, 255, 255]; 
+    const endColor = [196, 229, 235];
     
     let color;
     if (position < 50) {
@@ -73,13 +54,6 @@ export default function TempSlider({ sku, device, value, onChange }) {
         </div>
         <Slider.Thumb className="w-[30px] h-[30px] rounded-full z-9 border-2 border-1 border-custom-invert flex grow outline-none focus:outline-none" />
       </Slider.Root>
-      {/* <div
-        className="w-full h-10 mt-4"
-        style={{ backgroundColor: color }}
-      /> */}
-      {/* <div className="mt-2">
-        Current Color: <span style={{ color: color }}>{color}</span>
-      </div> */}
       <div>{volume}</div>
     </div>
   );

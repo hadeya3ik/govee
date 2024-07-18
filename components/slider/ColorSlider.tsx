@@ -27,18 +27,6 @@ export default function ColorSlider(props) {
   return (
     // THE CONTAINER FOR BOTH THE COLORS AND THE THUMB 
     <div className=''>
-      {/* <div className='pl-4 flex gap-4'>
-        <label {...labelProps}>{label}</label>
-        <output
-          {...outputProps}
-          style={{ flex: '', textAlign: 'end' }}
-        >
-          {state.value.formatChannelValue(
-            props.channel,
-            locale
-          )}
-        </output>
-      </div> */}
     <div className='cursor-grab rounded-full overflow-hidden relative'>
       {/* The track element holds the visible track line and the thumb. */}
       {/* THE COLOUR BACKGROUND  */}

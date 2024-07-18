@@ -2,25 +2,7 @@
 
 import * as Slider from '@radix-ui/react-slider';
 import { useState } from 'react';
-import axios from 'axios';
-
-async function setBrightness(sku, device, value) {
-  try {
-    const req = await axios.post("http://localhost:8000/brightness", {
-      sku, 
-      device,
-      value
-    });
-    console.log('Response:', req.data);
-  } catch (error) {
-    if (error.response) {
-      alert(`Error: ${error.response.status} - ${error.response.data}`);
-    } else {
-      alert('Error toggling the light');
-    }
-    console.error(error);
-  }
-}
+import { setBrightness } from '@/api/index';
 
 export default function BrightnessSlider({sku, device, value, onChange}) {
 
