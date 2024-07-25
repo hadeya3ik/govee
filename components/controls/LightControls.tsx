@@ -34,7 +34,7 @@ const LightControls = ({ device, sku, color, setColor, tempLevel, setTempLevel, 
         <BrightnessSlider {...modelProps} value={brightness} onChange={setBrightness}/>
       </motion.div>
       <motion.div variants={itemVariants}>
-        <TempSlider {...modelProps}  tempLevel={tempLevel} setTempLevel={setTempLevel}/>
+        <TempSlider {...modelProps}  value={tempLevel} onChange={setTempLevel}/>
       </motion.div>
       <motion.div variants={itemVariants}>
         <ColorSlider channel="hue" value={color} onChange={handleColorChange}/>

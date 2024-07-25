@@ -4,12 +4,12 @@ import * as Slider from '@radix-ui/react-slider';
 import { useState, useEffect } from 'react';
 import {setDeviceTemperature} from '@/api/index';
 
-export default function TempSlider({ sku, device, tempLevel, setTempLevel }) {
+export default function TempSlider({ sku, device, value,  onChange }) {
   const [color, setColor] = useState('rgba(255,204,151,1)');
 
   useEffect(() => {
-    setColor(getColorFromPosition((tempLevel - 2000) * 100 / (9000 - 2000)));
-  }, [tempLevel]);
+    setColor(getColorFromPosition((value - 2000) * 100 / (9000 - 2000)));
+  }, [value]);
 
   const getColorFromPosition = (position) => {
     const startColor = [255, 223, 191];
@@ -28,7 +28,7 @@ export default function TempSlider({ sku, device, tempLevel, setTempLevel }) {
   };
 
   const handleChange = (v) => {
-    setTempLevel(v[0]);
+    onChange(v[0]);
     // Map the initial temperature value (2000-9000) to the slider value (0-100)
     const x = (v[0] - 2000) * 100 / (9000 - 2000);
     const newColor = getColorFromPosition(x);
@@ -42,7 +42,7 @@ export default function TempSlider({ sku, device, tempLevel, setTempLevel }) {
       <Slider.Root
       min={2000}
       max={9000}
-        value={[tempLevel]}
+        value={[value]}
         onValueChange={handleChange}
         className="relative flex w-full grow cursor-grab touch-none items-center active:cursor-grabbing"
       >
@@ -53,10 +53,6 @@ export default function TempSlider({ sku, device, tempLevel, setTempLevel }) {
         </div>
         <Slider.Thumb className="w-[30px] h-[30px] rounded-full z-9 border-2 border-1 border-custom-invert flex grow outline-none focus:outline-none" />
       </Slider.Root>
-      <div>{tempLevel}</div>
     </div>
   );
 }
-
-
-// we keep the range of the slider from 0 to 100 since the getcolor from position value must be from 0-100

@@ -37,15 +37,14 @@ function mapValueToRange(position, inMin, inMax, outMin, outMax) {
     return (position - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 }
 
-const Widget = ({ deviceName, device, sku, }) => {
+const DummyWidget = ({ deviceName, device, sku}) => {
     const [color, setColor] = useState(parseColor('hsl(329, 75%, 56%)'));
     const [tempColor, setTempColor] = useState(parseColor('rgba(255,224,194,1)'));
     const [tempLevel, setTempLevel] = useState(50);
     const [expand, setExpand] = useState(false);
-    const [bulbSwitch, setSwitch] = useState(false);
+    const [bulbSwitch, setSwitch] = useState(true);
     const [brightness, setBrightness] = useState(50); 
     const [lastUpdated, setLastUpdated] = useState('color');
-    const [connection, setConnection] = useState(true);
 
     useEffect(() => {
         if (!bulbSwitch) {
@@ -63,9 +62,7 @@ const Widget = ({ deviceName, device, sku, }) => {
 
     const handleSwitch = () => {
         setSwitch(!bulbSwitch);
-        setDeviceLight(sku,device, bulbSwitch ? 0 : 1 );
     }
-
     const lightProps = {device, sku, color, setColor, tempLevel, setTempLevel, brightness, setBrightness};
 
     useEffect(() => {
@@ -73,48 +70,12 @@ const Widget = ({ deviceName, device, sku, }) => {
         const newColor = getColorFromPosition(x);
         setTempColor(parseColor(`rgba(${newColor[0]}, ${newColor[1]}, ${newColor[2]}, 1)`));
     }, [tempLevel]);
-
-    useEffect(() => {
-        async function fetchDeviceState() {
-          try {
-            const capabilities = await getDeviceState(sku, device, 0);
-            const initialColor = capabilities.find(cap => cap.instance === 'colorRgb')?.state.value;
-            const initialTemp = capabilities.find(cap => cap.instance === 'colorTemperatureK')?.state.value;
-            const initialBrightness = capabilities.find(cap => cap.instance === 'brightness')?.state.value;
-            const initialPower = capabilities.find(cap => cap.instance === 'powerSwitch')?.state.value;
-            const initialConnection = capabilities.find(cap => cap.instance === 'online')?.state.value;
-
-            setConnection(initialConnection)
-
-            if (initialColor) { 
-                const { r, g, b } = getRGBFromNumber(initialColor);
-                const hsla = hsvaToHsla(rgbaToHsva({r,g,b, a:1}));
-                setColor(parseColor(`hsl(${hsla.h},${hsla.s}%,${hsla.l}%)`));
-            }
-            
-            if (initialTemp) {
-                setTempLevel(initialTemp);
-                (console.log("LKJHGFDSDHJGKLK",getColorFromPosition((tempLevel - 2000) * 100 / (9000 - 2000))));
-            }
-            if (initialBrightness) setBrightness(initialBrightness);
-            if (initialPower !== undefined) setSwitch(!!initialPower);
-          } 
-          catch (error) {
-            console.error('Error fetching initial device state:', error);
-          }
-        }
-        fetchDeviceState()
-    }, []);
     
-
     return (
         <div className='p-4 flex flex-col border justify-between rounded'>
             <div>
-                <h2 className='text-5xl pb-4'>{deviceName}</h2>
+                <h2 className='text-5xl pb-4'>bulb1</h2>
                 <div className='pb-4 display: flex items-center gap-4'>
-                    <h2 className='text-xl'>{sku}</h2>
-                    {connection && <PiBluetooth size={20}/>}
-                    
                 </div>
                 
             </div>
@@ -122,12 +83,11 @@ const Widget = ({ deviceName, device, sku, }) => {
                 <motion.div 
                     className='items-center self-center rounded-full h-[150px] w-[150px]'>
                     <AnimatePresence>
-                        {bulbSwitch && connection && (
+                        {bulbSwitch && (
                             <BulbDisplay color={lastUpdated === 'color' ? color : tempColor} brightness={brightness} />
                         )}
                     </AnimatePresence>
                 </motion.div>
-                {connection && 
                  <div className='justify-self-end self-end'>
                  <div className='border border-custom-main rounded-full w-fit mb-4'
                      onClick={() => handleSwitch()}>
@@ -142,7 +102,7 @@ const Widget = ({ deviceName, device, sku, }) => {
                          <PiArrowDownRightThin size={60} />
                      </Button>
                  </div>
-             </div>}
+             </div>
             </div>
             <ResizablePanel>
                 {expand && (
@@ -153,4 +113,4 @@ const Widget = ({ deviceName, device, sku, }) => {
     );
 }
 
-export default Widget;
+export default DummyWidget;

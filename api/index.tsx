@@ -1,6 +1,24 @@
 import axios from 'axios';
 
+export async function getDevices() {
+  try {
+    const response = await axios.get("/api/devices");
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      alert(`Error: ${error.response.status} - ${error.response.data.error}`);
+    } else {
+      alert('uh oh');
+    }
+    console.error(error);
+  }
+}
+
+
 export async function setDeviceColor(sku, device, r, g, b) {
+  if (device == "n/a" && sku == "n/a") {
+    return
+  }
   try {
     const req = await axios.post("/api/color", {
       sku, 
@@ -43,6 +61,11 @@ export async function setDeviceColor(sku, device, r, g, b) {
   }
 
 export async function setDeviceLight(sku, device, value) {
+  
+  if (device == "n/a" && sku == "n/a") {
+    return
+  }
+  
   try {
     const req = await fetch('/api/control', {
       method: 'POST',
@@ -66,6 +89,9 @@ export async function setDeviceLight(sku, device, value) {
 }
 
 export async function setDeviceBrightness(sku, device, value) {
+  if (device == "n/a" && sku == "n/a") {
+    return
+  }
   try {
     const req = await axios.post("/api/brightness", {
       sku, 
@@ -99,6 +125,9 @@ export async function setDeviceBrightness(sku, device, value) {
 // }
 
 export async function setDeviceTemperature(sku, device, value) {
+  if (device == "n/a" && sku == "n/a") {
+    return
+  }
   try {
     const req = await axios.post("/api/temp", {
       sku, 
