@@ -6,9 +6,9 @@ const BulbDisplay = ({ color, brightness }) => {
   const gradient = `radial-gradient(#1E1E1E, ${color.toString('css')})`;
   // const gradient = `radial-gradient(${color.toString('css')}, #1E1E1E)`;
 
-  useEffect(() => {
-    console.log(color.toString('css'));
-  }, [color]);
+  // useEffect(() => {
+  //   console.log(color.toString('css'));
+  // }, [color]);
 
   return (
     <>
@@ -20,8 +20,6 @@ const BulbDisplay = ({ color, brightness }) => {
         className='items-center self-center rounded-full h-[150px] w-[150px]'
         style={{ 
           background: gradient, 
-          // filter: `brightness(0.3)` 
-          // filter: `brightness(${Math.max(volume / 100, 0.3)})` 
           filter: `brightness(${(brightness / 100 +  0.3)})` 
         }}
       />

@@ -3,84 +3,47 @@ import React, { useState } from 'react'
 import TempSlider from '@/components/slider/TempSlider';
 import BrightnessSlider from '@/components/slider/BrightnessSlider';
 import ColorSlider from '@/components/slider/ColorSlider'
+import { hslaToHsva, hsvaToRgba} from '@uiw/color-convert';
 import { motion, AnimatePresence } from 'framer-motion'
+import {itemVariants, containerVariants} from '@/lib/anim'
+import { setDeviceColor } from '@/api/index';
 
-const itemVariants = {
-  initial: { 
-    opacity: 0,
-    y: 50,
-    transition: { 
-      y: { stiffness: 1000, velocity: -100 },
-    },
-  },
-  animate: { 
-    opacity: 1,
-    y: 0,
-    transition: { 
-      duration: 0.5,
-      y: { 
-        type: "spring",
-        stiffness: 200,
-        damping: 20,
-        velocity: 2,
-      },
-    },
-  },
-  exit: { 
-    opacity: 0,
-    y: 50,
-    transition: { 
-      duration: 0.02,
-    }
-  }
-};
 
-const containerVariants = {
-  animate: { 
-    transition: { 
-      staggerChildren: 0.08 
-    } 
-  }
-};
+const LightControls = ({ device, sku, color, setColor, tempLevel, setTempLevel, brightness, setBrightness }) => {
 
-const LightControls = ({ color, setColor, temp, setTemp, brightness, setBrightness }) => {
-    return (
-        <motion.div 
-          className='flex flex-col justify-around gap-4 pt-4'
-          variants={containerVariants}
-          initial="initial"
-          animate="animate"
-        >
-          <motion.div
-              variants={itemVariants}>
-            <BrightnessSlider value={brightness} onChange={setBrightness}/>
-          </motion.div>
-          <motion.div
-              variants={itemVariants}
-            >
-            <TempSlider 
-            value={temp}
-            onChange={setTemp}
-            />
-          </motion.div>
-          <motion.div
-            variants={itemVariants}>
-            <ColorSlider
-                channel="hue"
-                value={color}
-                onChange={setColor}
-            />
-          </motion.div>
-          <motion.div
-            variants={itemVariants}>
-            <ColorSlider
-                channel="saturation"
-                value={color}
-                onChange={setColor}
-            />
-          </motion.div>
-        </motion.div>
-    )
+  const handleColorChange = (newColor) => {
+    setColor(newColor);
+    console.log(newColor)
+    const hsvaColor = hslaToHsva({ h: newColor.hue, s: newColor.saturation, l: newColor.lightness, a: 1 });
+    const { r, g, b } = hsvaToRgba(hsvaColor);
+    console.log(r, g, b);
+    setDeviceColor(sku, device, r, g, b);
+  };
+
+
+  const modelProps = {device, sku}
+
+  return (
+    <motion.div 
+      className='flex flex-col justify-around gap-4 pt-4'
+      variants={containerVariants}
+      initial="initial"
+      animate="animate"
+    >
+      <motion.div variants={itemVariants}>
+        <BrightnessSlider {...modelProps} value={brightness} onChange={setBrightness}/>
+      </motion.div>
+      <motion.div variants={itemVariants}>
+        <TempSlider {...modelProps}  tempLevel={tempLevel} setTempLevel={setTempLevel}/>
+      </motion.div>
+      <motion.div variants={itemVariants}>
+        <ColorSlider channel="hue" value={color} onChange={handleColorChange}/>
+      </motion.div>
+      <motion.div variants={itemVariants}>
+        <ColorSlider channel="saturation" value={color} onChange={handleColorChange}/>
+      </motion.div>
+    </motion.div>
+  )
 }
 
-export default LightControls
+export default LightControls;

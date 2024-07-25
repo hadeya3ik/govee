@@ -2,19 +2,19 @@
 
 import * as Slider from '@radix-ui/react-slider';
 import { useState, useEffect } from 'react';
+import {setDeviceTemperature} from '@/api/index';
 
-export default function TempSlider({ value, onChange }) {
-  const [volume, setVolume] = useState(50);
+export default function TempSlider({ sku, device, tempLevel, setTempLevel }) {
   const [color, setColor] = useState('rgba(255,204,151,1)');
 
   useEffect(() => {
-    setColor(getColorFromPosition(volume));
-  }, [volume]);
+    setColor(getColorFromPosition((tempLevel - 2000) * 100 / (9000 - 2000)));
+  }, [tempLevel]);
 
   const getColorFromPosition = (position) => {
-    const startColor = [255, 223, 191]; // rgba(255,204,151,1)
-    const midColor = [255, 255, 255]; // rgba(255,255,255,1)
-    const endColor = [196, 229, 235]; // rgba(136,203,215,1)
+    const startColor = [255, 223, 191];
+    const midColor = [255, 255, 255]; 
+    const endColor = [196, 229, 235];
     
     let color;
     if (position < 50) {
@@ -28,16 +28,21 @@ export default function TempSlider({ value, onChange }) {
   };
 
   const handleChange = (v) => {
-    setVolume(v[0]);
-    const newColor = getColorFromPosition(v[0]);
+    setTempLevel(v[0]);
+    // Map the initial temperature value (2000-9000) to the slider value (0-100)
+    const x = (v[0] - 2000) * 100 / (9000 - 2000);
+    const newColor = getColorFromPosition(x);
+    console.log(newColor)
+    setDeviceTemperature(sku, device, v[0]);
     setColor(newColor);
-    onChange(newColor); 
   };
 
   return (
     <div className="flex flex-col items-center">
       <Slider.Root
-        value={[volume]}
+      min={2000}
+      max={9000}
+        value={[tempLevel]}
         onValueChange={handleChange}
         className="relative flex w-full grow cursor-grab touch-none items-center active:cursor-grabbing"
       >
@@ -48,13 +53,10 @@ export default function TempSlider({ value, onChange }) {
         </div>
         <Slider.Thumb className="w-[30px] h-[30px] rounded-full z-9 border-2 border-1 border-custom-invert flex grow outline-none focus:outline-none" />
       </Slider.Root>
-      {/* <div
-        className="w-full h-10 mt-4"
-        style={{ backgroundColor: color }}
-      /> */}
-      {/* <div className="mt-2">
-        Current Color: <span style={{ color: color }}>{color}</span>
-      </div> */}
+      <div>{tempLevel}</div>
     </div>
   );
 }
+
+
+// we keep the range of the slider from 0 to 100 since the getcolor from position value must be from 0-100
