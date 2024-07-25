@@ -2,12 +2,12 @@
 
 import * as Slider from '@radix-ui/react-slider';
 import { useState } from 'react';
-import { setBrightness } from '@/api/index';
+import { setDeviceBrightness } from '@/api/index';
 
 export default function BrightnessSlider({sku, device, value, onChange}) {
 
   const handleChange = (v) => {
-    setBrightness(sku, device, v[0])
+    setDeviceBrightness(sku, device, v[0])
     onChange(v[0])
   }
 

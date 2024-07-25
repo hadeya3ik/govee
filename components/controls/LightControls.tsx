@@ -6,17 +6,22 @@ import ColorSlider from '@/components/slider/ColorSlider'
 import { hslaToHsva, hsvaToRgba} from '@uiw/color-convert';
 import { motion, AnimatePresence } from 'framer-motion'
 import {itemVariants, containerVariants} from '@/lib/anim'
-import { colorSaturation } from '@/api/index';
+import { setDeviceColor } from '@/api/index';
 
 
 const LightControls = ({ device, sku, color, setColor, temp, setTemp, brightness, setBrightness }) => {
+
   const handleColorChange = (newColor) => {
     setColor(newColor);
     console.log(newColor)
     const hsvaColor = hslaToHsva({ h: newColor.hue, s: newColor.saturation, l: newColor.lightness, a: 1 });
     const { r, g, b } = hsvaToRgba(hsvaColor);
     console.log(r, g, b);
-    colorSaturation(sku, device, r, g, b);
+    setDeviceColor(sku, device, r, g, b);
+  };
+
+  const handleTempChange = (newColor) => {
+    setColor(newColor);
   };
 
   const modelProps = {device, sku}

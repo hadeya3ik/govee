@@ -2,6 +2,7 @@
   "name": "goveeweb",
   "version": "0.1.0",
   "private": true,
+  "proxy" : "https://openapi.api.govee.com/router/api/v1",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

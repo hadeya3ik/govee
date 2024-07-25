@@ -2,15 +2,15 @@
 
 import * as Slider from '@radix-ui/react-slider';
 import { useState, useEffect } from 'react';
-import {colorTemprature} from '@/api/index';
+import {setDeviceTemperature} from '@/api/index';
 
 export default function TempSlider({ sku, device, value, onChange }) {
-  const [volume, setVolume] = useState(50);
+  const [tempLevel, setTempLevel] = useState(50);
   const [color, setColor] = useState('rgba(255,204,151,1)');
 
   useEffect(() => {
-    setColor(getColorFromPosition(volume));
-  }, [volume]);
+    setColor(getColorFromPosition(tempLevel));
+  }, [tempLevel]);
 
   const getColorFromPosition = (position) => {
     const startColor = [255, 223, 191];
@@ -30,10 +30,10 @@ export default function TempSlider({ sku, device, value, onChange }) {
 
   const handleChange = (v) => {
     console.log(v[0]);
-    setVolume(v[0]);
+    setTempLevel(v[0]);
     const newColor = getColorFromPosition(v[0]);
     const mappedValue = 2000 + (v[0] / 100) * (9000 - 2000); // Map 0-100 to 2000-9000
-    colorTemprature(sku, device, mappedValue);
+    setDeviceTemperature(sku, device, mappedValue);
     setColor(newColor);
     onChange(newColor); 
   };
@@ -43,7 +43,7 @@ export default function TempSlider({ sku, device, value, onChange }) {
       <Slider.Root
       min={0}
       max={100}
-        value={[volume]}
+        value={[tempLevel]}
         onValueChange={handleChange}
         className="relative flex w-full grow cursor-grab touch-none items-center active:cursor-grabbing"
       >
@@ -54,7 +54,7 @@ export default function TempSlider({ sku, device, value, onChange }) {
         </div>
         <Slider.Thumb className="w-[30px] h-[30px] rounded-full z-9 border-2 border-1 border-custom-invert flex grow outline-none focus:outline-none" />
       </Slider.Root>
-      <div>{volume}</div>
+      <div>{tempLevel}</div>
     </div>
   );
 }
