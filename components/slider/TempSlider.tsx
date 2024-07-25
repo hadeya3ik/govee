@@ -4,12 +4,11 @@ import * as Slider from '@radix-ui/react-slider';
 import { useState, useEffect } from 'react';
 import {setDeviceTemperature} from '@/api/index';
 
-export default function TempSlider({ sku, device, value, onChange }) {
-  const [tempLevel, setTempLevel] = useState(50);
+export default function TempSlider({ sku, device, tempLevel, setTempLevel }) {
   const [color, setColor] = useState('rgba(255,204,151,1)');
 
   useEffect(() => {
-    setColor(getColorFromPosition(tempLevel));
+    setColor(getColorFromPosition((tempLevel - 2000) * 100 / (9000 - 2000)));
   }, [tempLevel]);
 
   const getColorFromPosition = (position) => {
@@ -29,20 +28,20 @@ export default function TempSlider({ sku, device, value, onChange }) {
   };
 
   const handleChange = (v) => {
-    console.log(v[0]);
     setTempLevel(v[0]);
-    const newColor = getColorFromPosition(v[0]);
-    const mappedValue = 2000 + (v[0] / 100) * (9000 - 2000); // Map 0-100 to 2000-9000
-    setDeviceTemperature(sku, device, mappedValue);
+    // Map the initial temperature value (2000-9000) to the slider value (0-100)
+    const x = (v[0] - 2000) * 100 / (9000 - 2000);
+    const newColor = getColorFromPosition(x);
+    console.log(newColor)
+    setDeviceTemperature(sku, device, v[0]);
     setColor(newColor);
-    onChange(newColor); 
   };
 
   return (
     <div className="flex flex-col items-center">
       <Slider.Root
-      min={0}
-      max={100}
+      min={2000}
+      max={9000}
         value={[tempLevel]}
         onValueChange={handleChange}
         className="relative flex w-full grow cursor-grab touch-none items-center active:cursor-grabbing"
@@ -58,3 +57,6 @@ export default function TempSlider({ sku, device, value, onChange }) {
     </div>
   );
 }
+
+
+// we keep the range of the slider from 0 to 100 since the getcolor from position value must be from 0-100

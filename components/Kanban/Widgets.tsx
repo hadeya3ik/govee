@@ -40,7 +40,7 @@ function mapValueToRange(position, inMin, inMax, outMin, outMax) {
 
 const Widget = ({ deviceName, device, sku, }) => {
     const [color, setColor] = useState(parseColor('hsl(329, 75%, 56%)'));
-    const [temp, setTemp] = useState(parseColor('rgba(255,204,151,1)'));
+    const [tempColor, setTempColor] = useState(parseColor('rgba(255,224,194,1)'));
     const [tempLevel, setTempLevel] = useState(50);
     const [expand, setExpand] = useState(false);
     const [bulbSwitch, setSwitch] = useState(false);
@@ -59,32 +59,30 @@ const Widget = ({ deviceName, device, sku, }) => {
 
     useEffect(() => {
         setLastUpdated('temp');
-    }, [temp]);
+    }, [tempLevel]);
 
     const handleSwitch = () => {
         setSwitch(!bulbSwitch);
         setDeviceLight(sku,device, bulbSwitch ? 0 : 1 );
     }
 
-    const lightProps = {device, sku, color, setColor, temp, setTemp, brightness, setBrightness};
+    const lightProps = {device, sku, color, setColor, tempLevel, setTempLevel, brightness, setBrightness};
 
-    // useEffect(() => {
-    //     const { r, g, b } = getRGBFromNumber(8512060);
-    //     const hsla = hsvaToHsla(rgbaToHsva({r,g,b, a:1}));
-    //     setColor(parseColor(`hsl(${hsla.h},${hsla.s}%,${hsla.l}%)`));
-    // }, []);
+    useEffect(() => {
+        const x = mapValueToRange(tempLevel, 2000, 9000, 0, 100);
+        const newColor = getColorFromPosition(x);
+        setTempColor(parseColor(`rgba(${newColor[0]}, ${newColor[1]}, ${newColor[2]}, 1)`));
+    }, [tempLevel]);
 
     useEffect(() => {
         async function fetchDeviceState() {
           try {
             const capabilities = await getDeviceState(sku, device, 0);
 
-            console.log(device); 
-            capabilities.forEach(cap => {
-              console.log(`Instance: ${cap.instance}, Value: ${cap.state.value}`);
-            });
-    
-            // Initialize state with fetched data
+            // console.log(device); 
+            // capabilities.forEach(cap => {
+            //   console.log(`Instance: ${cap.instance}, Value: ${cap.state.value}`);
+            // });
             
             const initialColor = capabilities.find(cap => cap.instance === 'colorRgb')?.state.value;
             const initialTemp = capabilities.find(cap => cap.instance === 'colorTemperatureK')?.state.value;
@@ -97,10 +95,10 @@ const Widget = ({ deviceName, device, sku, }) => {
                 setColor(parseColor(`hsl(${hsla.h},${hsla.s}%,${hsla.l}%)`));
             }
             
-            // if (initialColor) setColor(parseColor(`#${initialColor.toString(16).padStart(6, '0')}`));
-            const tempRgb = getColorFromPosition(mapValueToRange(initialTemp, 2000, 9000, 0, 100))
-            if (initialTemp) setTemp(parseColor(`rgba(${tempRgb[0]}, ${tempRgb[1]}, ${tempRgb[2]}, 1)`));
-
+            if (initialTemp) {
+                setTempLevel(initialTemp);
+                (console.log("LKJHGFDSDHJGKLK",getColorFromPosition((tempLevel - 2000) * 100 / (9000 - 2000))));
+            }
             if (initialBrightness) setBrightness(initialBrightness);
             if (initialPower !== undefined) setSwitch(!!initialPower);
 
@@ -123,7 +121,7 @@ const Widget = ({ deviceName, device, sku, }) => {
                     className='items-center self-center rounded-full h-[150px] w-[150px]'>
                     <AnimatePresence>
                         {bulbSwitch && (
-                            <BulbDisplay color={lastUpdated === 'color' ? color : temp} brightness={brightness} />
+                            <BulbDisplay color={lastUpdated === 'color' ? color : tempColor} brightness={brightness} />
                         )}
                     </AnimatePresence>
                 </motion.div>

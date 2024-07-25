@@ -9,7 +9,7 @@ import {itemVariants, containerVariants} from '@/lib/anim'
 import { setDeviceColor } from '@/api/index';
 
 
-const LightControls = ({ device, sku, color, setColor, temp, setTemp, brightness, setBrightness }) => {
+const LightControls = ({ device, sku, color, setColor, tempLevel, setTempLevel, brightness, setBrightness }) => {
 
   const handleColorChange = (newColor) => {
     setColor(newColor);
@@ -20,9 +20,6 @@ const LightControls = ({ device, sku, color, setColor, temp, setTemp, brightness
     setDeviceColor(sku, device, r, g, b);
   };
 
-  const handleTempChange = (newColor) => {
-    setColor(newColor);
-  };
 
   const modelProps = {device, sku}
 
@@ -37,7 +34,7 @@ const LightControls = ({ device, sku, color, setColor, temp, setTemp, brightness
         <BrightnessSlider {...modelProps} value={brightness} onChange={setBrightness}/>
       </motion.div>
       <motion.div variants={itemVariants}>
-        <TempSlider {...modelProps}  value={temp} onChange={setTemp}/>
+        <TempSlider {...modelProps}  tempLevel={tempLevel} setTempLevel={setTempLevel}/>
       </motion.div>
       <motion.div variants={itemVariants}>
         <ColorSlider channel="hue" value={color} onChange={handleColorChange}/>
