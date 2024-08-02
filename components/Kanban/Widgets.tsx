@@ -114,9 +114,7 @@ const Widget = ({ deviceName, device, sku, }) => {
                 <div className='pb-4 display: flex items-center gap-4'>
                     <h2 className='text-xl'>{sku}</h2>
                     {connection && <PiBluetooth size={20}/>}
-                    
                 </div>
-                
             </div>
             <div className='flex justify-between'>
                 <motion.div 

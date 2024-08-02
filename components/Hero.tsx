@@ -7,7 +7,7 @@ const DynamicClock = dynamic(() => import('@/components/common/Clock'), { ssr: f
 
 function Hero() {
   return (
-    <div className='pb-60'>
+    <div className='pb-12'>
         <DynamicClock/>
     </div>
   )
