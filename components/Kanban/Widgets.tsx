@@ -94,7 +94,7 @@ const Widget = ({ deviceName, device, sku, }) => {
             
             if (initialTemp) {
                 setTempLevel(initialTemp);
-                (console.log("LKJHGFDSDHJGKLK",getColorFromPosition((tempLevel - 2000) * 100 / (9000 - 2000))));
+                // (console.log("LKJHGFDSDHJGKLK",getColorFromPosition((tempLevel - 2000) * 100 / (9000 - 2000))));
             }
             if (initialBrightness) setBrightness(initialBrightness);
             if (initialPower !== undefined) setSwitch(!!initialPower);

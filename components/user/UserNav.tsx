@@ -20,7 +20,7 @@ function UserNav() {
   const [button, setButton] = useState(true);
 
   useEffect(() => {
-    client.get("/api/user")
+    axios.get("/api/user")
     .then(function(res) {
       setCurrentUser(true);
     })
@@ -31,9 +31,9 @@ function UserNav() {
 
   function submitRegistration(e) {
     e.preventDefault();
-    client.post("/api/register", { email, username, password })
+    axios.post("/api/register", { email, username, password })
     .then(function(res) {
-      client.post("/api/login", { email, password })
+        axios.post("/api/login", { email, password })
       .then(function(res) {
         setCurrentUser(true);
       });
@@ -42,7 +42,7 @@ function UserNav() {
 
   function submitLogin(e) {
     e.preventDefault();
-    client.post("/api/login", { email, password })
+    axios.post("/api/login", { email, password })
     .then(function(res) {
       setCurrentUser(true);
     });
@@ -50,7 +50,7 @@ function UserNav() {
 
   function submitLogout(e) {
     e.preventDefault();
-    client.post("/api/logout")
+    axios.post("/api/logout")
     .then(function(res) {
       setCurrentUser(false);
     });
@@ -62,7 +62,7 @@ function UserNav() {
         <div className='flex'>
             <p className='px-8'>{currentUser ? `hello ${username}` : "login to continue" }</p>
             <div className='border border-custom-main rounded-full w-fit mb-4'>
-            <Button isActive={button} setIsActive={setButton}>
+            <Button isActive={button} setIsActive={setButton} onClick={submitLogout}>
             {currentUser ? 
             <p className='px-8'>logout</p>
              : 
@@ -71,59 +71,62 @@ function UserNav() {
             </Button>
             </div>
         </div>
-        
-        
-        {/* <form onSubmit={submitLogout}>
-          <div className='border border-custom-main rounded-full w-fit mb-4'>
-            <p className='px-8'>Logout</p> 
-          </div>
-        </form> */}
-        
-        {/* {!currentUser &&
-        <div className='border border-custom-main rounded-full w-fit mb-4'>
-            <p className='px-8'>{registrationToggle ? 'create account' : 'Login with existing account'}</p>
-        </div>
-        } */}
-
       </div>
-
-      {/* {!currentUser && !registrationToggle &&
+      <h2 className='text-4xl pb-4'>Log In</h2>
       <form onSubmit={submitLogin}>
-        <div className='mb-4'>
+        <div className='mb-4 border border-x-custom-main p-4 rounded-full'>
           <label>Email:</label>
-          <input type='email' value={email} onChange={e => setEmail(e.target.value)} required />
+          <input 
+          className='bg-custom-invert appearance-none focus:outline-none px-4'
+          type='email' value={email} onChange={e => setEmail(e.target.value)} required />
         </div>
-        <div className='mb-4'>
+        <div className='mb-4 border border-x-custom-main p-4 rounded-full'>
           <label>Password:</label>
-          <input type='password' value={password} onChange={e => setPassword(e.target.value)} required />
+          <input 
+          className='bg-custom-invert appearance-none focus:outline-none px-4'
+          type='password' value={password} onChange={e => setPassword(e.target.value)} required />
         </div>
-        <Button isActive={false} setIsActive={setCurrentUser}>
-          <p className='px-8'>Login</p>
-        </Button>
+        <button type="submit">
+            <div className='border border-custom-main rounded-full w-fit mb-4'>
+                <Button isActive={button} setIsActive={setButton}>
+                    <p className='px-8'>log in</p>
+                </Button>
+            </div>
+        </button>
       </form>
-      } */}
-
-      {/* {!currentUser && registrationToggle &&
+      
+      <h2 className='text-4xl pb-4'>Register</h2>
+      {!currentUser && registrationToggle }
       <form onSubmit={submitRegistration}>
-        <div className='mb-4'>
+        <div className='mb-4 border border-x-custom-main p-4 rounded-full'>
           <label>Email:</label>
-          <input type='email' value={email} onChange={e => setEmail(e.target.value)} required />
+          <input 
+          className='bg-custom-invert appearance-none focus:outline-none px-4'
+          type='email' value={email} onChange={e => setEmail(e.target.value)} required />
         </div>
-        <div className='mb-4'>
+        <div className='mb-4 border border-x-custom-main p-4 rounded-full'>
           <label>Username:</label>
-          <input type='text' value={username} onChange={e => setUsername(e.target.value)} required />
+          <input 
+          className='bg-custom-invert appearance-none focus:outline-none px-4'
+          type='text' value={username} onChange={e => setUsername(e.target.value)} required />
         </div>
-        <div className='mb-4'>
+        <div className='mb-4 border border-x-custom-main p-4 rounded-full'>
           <label>Password:</label>
-          <input type='password' value={password} onChange={e => setPassword(e.target.value)} required />
+          <input 
+          className='bg-custom-invert appearance-none focus:outline-none px-4'
+           type='password' value={password} onChange={e => setPassword(e.target.value)} required />
         </div>
-        <Button isActive={false} setIsActive={setCurrentUser}>
-          <p className='px-8'>Register</p>
-        </Button>
-      </form>
-      } */}
+        {/* <button type="submit">login</button> */}
+        <button type="submit">
+            <div className='border border-custom-main rounded-full w-fit mb-4'>
+                <Button isActive={button} setIsActive={setButton}>
+                    <p className='px-8'>register</p>
+                </Button>
+            </div>
+        </button>
 
-    </div>
+      </form>
+      </div>
   )
 }
 

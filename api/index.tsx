@@ -15,6 +15,8 @@ export async function getDevices() {
 }
 
 
+
+
 export async function setDeviceColor(sku, device, r, g, b) {
   if (device == "n/a" && sku == "n/a") {
     return
