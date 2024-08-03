@@ -12,10 +12,10 @@ const client = axios.create({
     baseURL: "http://127.0.0.1:8000"
 });
 
-function UserNav() {
+function Page() {
   const [currentUser, setCurrentUser] = useState(false);
   const [registrationToggle, setRegistrationToggle] = useState(false);
-  const [loginToggle, setLoginToggle] = useState(false);
+  const [loginToggle, setLoginToggle] = useState(true);
   const [email, setEmail] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -64,9 +64,7 @@ function UserNav() {
   }
 
   return (
-    <div className='pb-12'>
-      <div className='flex'>
-      </div>
+    <div className='pb-12 h-screen flex  items-centerjustify-center'>
       <ResizablePanel> 
         {loginToggle && 
         <>
@@ -135,4 +133,4 @@ function UserNav() {
   )
 }
 
-export default UserNav;
+export default Page;

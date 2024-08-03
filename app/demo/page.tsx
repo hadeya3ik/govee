@@ -3,11 +3,14 @@ import React, {useState, useEffect} from 'react'
 import { AnimatePresence, motion } from "framer-motion";
 import DummyWidget from '@/components/Kanban/DummyWidget';
 import { getDevices } from '@/api/index';
+const DynamicClock = dynamic(() => import('@/components/common/Clock'), { ssr: false });
+import dynamic from 'next/dynamic';
 function play() {
   
   return (
     <main className='h-screen'>
-        <div className='pb-60'>
+        <DynamicClock/>
+        <div className='pt-20 pb-60'>
             <h1 className='text-6xl pb-4'>Devices</h1>
             <hr className='pb-4' />
             <div className='flex flex-col sm:flex-row sm:gap-4'>
