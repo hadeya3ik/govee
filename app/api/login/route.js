@@ -1,23 +1,24 @@
 import axios from '@/utils/axiosConfig';
 import { NextResponse } from 'next/server';
+
 export async function POST(request) {
   const { email, password } = await request.json();
   
-  if (!email || !password === undefined) {
+  if (!email || password === undefined) {
     return new Response('Missing required fields: email, password', {
       status: 400
     });
   }
+
   try {
     const response = await axios.post('http://127.0.0.1:8000/api/login', {
       email,
       password,
-    }, {
-      withCredentials: true
     });
 
     // Extract Set-Cookie headers from the Django response
     const setCookieHeader = response.headers['set-cookie'];
+    console.log(setCookieHeader);
 
     // Create a new response and set the cookies
     const res = new NextResponse(JSON.stringify(response.data), {
@@ -29,7 +30,10 @@ export async function POST(request) {
 
     if (setCookieHeader) {
       setCookieHeader.forEach(cookie => {
-        res.headers.append('Set-Cookie', cookie);
+        // Check if the cookie is the sessionid
+        if (cookie.startsWith('sessionid=')) {
+          res.headers.append('Set-Cookie', cookie);
+        }
       });
     }
 

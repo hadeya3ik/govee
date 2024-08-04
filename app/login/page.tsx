@@ -9,8 +9,8 @@ import LoginForm from './LoginForm';
 
 function Page() {
   const [currentUser, setCurrentUser] = useState(false);
-  const [registrationToggle, setRegistrationToggle] = useState(true);
-  const [loginToggle, setLoginToggle] = useState(false);
+  const [registrationToggle, setRegistrationToggle] = useState(false);
+  const [loginToggle, setLoginToggle] = useState(true);
   const [apiToggle, setApiToggle] = useState(false);
   const [apiKey, setApiKey] = useState('');
 
