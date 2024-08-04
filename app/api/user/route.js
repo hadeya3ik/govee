@@ -1,8 +1,4 @@
-import axios from 'axios';
-
-axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-axios.defaults.withCredentials = true;
+import axios from '@/utils/axiosConfig';
 
 export async function GET() {
   try {
@@ -14,9 +10,10 @@ export async function GET() {
       }
     });
   } catch (error) {
-    console.error(error);
-    return new Response(JSON.stringify({ error: 'Error getting user' }), {
-      status: 401,
+    const status = error.response ? error.response.status : 500;
+    const message = error.response ? error.response.data : 'Server error';
+    return new Response(JSON.stringify({ error: message }), {
+      status: status,
       headers: {
         'Content-Type': 'application/json'
       }

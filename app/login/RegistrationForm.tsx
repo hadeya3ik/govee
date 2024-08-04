@@ -1,7 +1,8 @@
 'use client'
 import React, { useState } from 'react';
-import axios from 'axios';
+import axios from '@/utils/axiosConfig';
 import Button from '@/components/common/Button/index';
+
 
 function RegistrationForm() {
     const [apiKey, setApiKey] = useState('');
@@ -24,7 +25,6 @@ function RegistrationForm() {
             } else {
                 setError('An unknown error occurred.');
             }
-
             setTimeout(() => {
               setError('');
             }, 5000);

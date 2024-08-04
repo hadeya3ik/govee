@@ -1,10 +1,11 @@
 'use client'
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '@/utils/axiosConfig';
 import Button from '@/components/common/Button/index';
 import ResizablePanel from '@/components/common/ResizablePanel';
 import RegistrationForm from './RegistrationForm';
 import LoginForm from './LoginForm';
+
 
 function Page() {
   const [currentUser, setCurrentUser] = useState(false);
@@ -21,15 +22,15 @@ function Page() {
     .catch(function(error) {
       setCurrentUser(false);
     });
-  }, []);
+  }, [loginToggle]);
 
-  // function submitLogout(e) {
-  //   e.preventDefault();
-  //   axios.post("/api/logout")
-  //   .then(function(res) {
-  //     setCurrentUser(false);
-  //   });
-  // }
+  function submitLogout(e) {
+    e.preventDefault();
+    axios.post("/api/logout")
+    .then(function(res) {
+      setCurrentUser(false);
+    });
+  }
 
   function Collapse () {
     setLoginToggle(!loginToggle)
@@ -37,8 +38,11 @@ function Page() {
   }
 
   return (
-    <div className='pb-12 h-screen flex  items-centerjustify-center'>
+    <div className='pb-12 h-screen flex flex-col items-centerjustify-center'>
       <h2 className='text-4xl pb-4'>{currentUser}</h2>
+      <button className='self-end' onClick={submitLogout}>
+        <h2 className='text-4xl pb-4'>LOGOUT</h2>
+      </button>
       <ResizablePanel> 
         {loginToggle && <>
             <LoginForm/>

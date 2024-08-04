@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import axios from '@/utils/axiosConfig';
 import Button from '@/components/common/Button/index';
 import ResizablePanel from '@/components/common/ResizablePanel';
+
 
 function LoginForm() {
     const [email, setEmail] = useState('');
@@ -23,8 +24,6 @@ function LoginForm() {
             } else {
                 setError('An unknown error occurred.');
             }
-            
-
             setTimeout(() => {
               setError('');
               setMessage(''); 
@@ -32,8 +31,30 @@ function LoginForm() {
         }
     }
 
+    async function getUserInfo(e) {
+        e.preventDefault();
+        try {
+            await axios.get("/api/user");
+            setMessage("getting user info");
+            setError('');
+        } catch (err) {
+            if (err.response && err.response.data) {
+                const { detail } = err.response.data.error;
+                setError(JSON.stringify(detail));
+            } else {
+                setError('An unknown error occurred.');
+            }
+            setTimeout(() => {
+              setError('');
+              setMessage(''); 
+            }, 5000);
+        }
+    }
+    
+
     return (
         <div>
+            <h2 className='text-4xl pb-4' onClick={getUserInfo}>user info</h2>
             <h2 className='text-4xl pb-4'>Log In</h2>
             <form onSubmit={submitLogin}>
                 {error && <div className='mb-4 text-red-500'>{error}</div>}
