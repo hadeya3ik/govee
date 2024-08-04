@@ -3,23 +3,15 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Button from '@/components/common/Button/index';
 import ResizablePanel from '@/components/common/ResizablePanel';
-
-axios.defaults.xsrfCookieName = 'csrftoken';
-axios.defaults.xsrfHeaderName = 'X-CSRFToken';
-axios.defaults.withCredentials = true;
-
-const client = axios.create({
-    baseURL: "http://127.0.0.1:8000"
-});
+import RegistrationForm from './RegistrationForm';
+import LoginForm from './LoginForm';
 
 function Page() {
   const [currentUser, setCurrentUser] = useState(false);
-  const [registrationToggle, setRegistrationToggle] = useState(false);
-  const [loginToggle, setLoginToggle] = useState(true);
-  const [email, setEmail] = useState('');
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [button, setButton] = useState(true);
+  const [registrationToggle, setRegistrationToggle] = useState(true);
+  const [loginToggle, setLoginToggle] = useState(false);
+  const [apiToggle, setApiToggle] = useState(false);
+  const [apiKey, setApiKey] = useState('');
 
   useEffect(() => {
     axios.get("/api/user")
@@ -31,32 +23,13 @@ function Page() {
     });
   }, []);
 
-  function submitRegistration(e) {
-    e.preventDefault();
-    axios.post("/api/register", { email, username, password })
-    .then(function(res) {
-        axios.post("/api/login", { email, password })
-      .then(function(res) {
-        setCurrentUser(true);
-      });
-    });
-  }
-
-  function submitLogin(e) {
-    e.preventDefault();
-    axios.post("/api/login", { email, password })
-    .then(function(res) {
-      setCurrentUser(true);
-    });
-  }
-
-  function submitLogout(e) {
-    e.preventDefault();
-    axios.post("/api/logout")
-    .then(function(res) {
-      setCurrentUser(false);
-    });
-  }
+  // function submitLogout(e) {
+  //   e.preventDefault();
+  //   axios.post("/api/logout")
+  //   .then(function(res) {
+  //     setCurrentUser(false);
+  //   });
+  // }
 
   function Collapse () {
     setLoginToggle(!loginToggle)
@@ -65,72 +38,32 @@ function Page() {
 
   return (
     <div className='pb-12 h-screen flex  items-centerjustify-center'>
+      <h2 className='text-4xl pb-4'>{currentUser}</h2>
       <ResizablePanel> 
-        {loginToggle && 
-        <>
-        <h2 className='text-4xl pb-4'>Log In</h2>
-        <form onSubmit={submitLogin}>
-            <div className='mb-4 border border-x-custom-main p-4 rounded-full'>
-            <label>Email:</label>
-            <input 
-            className='bg-custom-invert appearance-none focus:outline-none px-4'
-            type='email' value={email} onChange={e => setEmail(e.target.value)} required />
-            </div>
-            <div className='mb-4 border border-x-custom-main p-4 rounded-full'>
-            <label>Password:</label>
-            <input 
-            className='bg-custom-invert appearance-none focus:outline-none px-4'
-            type='password' value={password} onChange={e => setPassword(e.target.value)} required />
-            </div>
-            <button type="submit">
-                <div className='border border-custom-main rounded-full w-fit mb-4'>
-                    <Button isActive={button} setIsActive={setButton}>
-                        <p className='px-8'>log in</p>
-                    </Button>
-                </div>
-            </button>
+        {loginToggle && <>
+            <LoginForm/>
             <p className='cursor-pointer underline underline-offset-1' onClick={Collapse}>Make an Account</p>
-        </form>
-        </>
+          </>
         }
-        </ResizablePanel>
-        <ResizablePanel> 
-        {registrationToggle && 
-        <>
-      <h2 className='text-4xl pb-4'>Register</h2>
-      <form onSubmit={submitRegistration}>
-        <div className='mb-4 border border-x-custom-main p-4 rounded-full'>
-          <label>Email:</label>
-          <input 
-          className='bg-custom-invert appearance-none focus:outline-none px-4'
-          type='email' value={email} onChange={e => setEmail(e.target.value)} required />
-        </div>
-        <div className='mb-4 border border-x-custom-main p-4 rounded-full'>
-          <label>Username:</label>
-          <input 
-          className='bg-custom-invert appearance-none focus:outline-none px-4'
-          type='text' value={username} onChange={e => setUsername(e.target.value)} required />
-        </div>
-        <div className='mb-4 border border-x-custom-main p-4 rounded-full'>
-          <label>Password:</label>
-          <input 
-          className='bg-custom-invert appearance-none focus:outline-none px-4'
-           type='password' value={password} onChange={e => setPassword(e.target.value)} required />
-        </div>
-        <button type="submit">
-            <div className='border border-custom-main rounded-full w-fit mb-4'>
-                <Button isActive={button} setIsActive={setButton}>
-                    <p className='px-8'>register</p>
-                </Button>
-            </div>
-        </button>
-        <p className='cursor-pointer underline underline-offset-1' onClick={Collapse}>Already have an Account</p>
-      </form> 
-      </>
-      }
       </ResizablePanel>
-      </div>
-  )
+      <ResizablePanel> 
+        {registrationToggle && <>
+        <RegistrationForm/>
+          <p className='cursor-pointer underline underline-offset-1' onClick={Collapse}>Already have an Account</p>
+          <p className='cursor-pointer underline underline-offset-1'  onClick={() => setApiToggle(!apiToggle)}>Where to find API Key</p>
+          <ResizablePanel> {apiToggle && 
+          <div className='flex pt-8 flex-col'>
+            <h2 className='text-xl'>Applying for your API key</h2>
+            <ul>
+              <li>1. Open the Govee Home mobile app and register for an account</li>
+              <li>2. Go to the account Settings, and select `Apply for API key`</li>
+              <li>3. Fill out your name and your reason (e.g. `to demo home automation`) and submit</li>
+              <li>4. You will receive an email with your API key to the email address you entered when registering a Govee account.</li>
+            </ul>
+          </div> } 
+          </ResizablePanel></>}
+          </ResizablePanel>
+      </div>)
 }
 
 export default Page;

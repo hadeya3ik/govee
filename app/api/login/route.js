@@ -26,12 +26,11 @@ export async function POST(request) {
     });
   } catch (error) {
     console.error(error);
-    return new Response(JSON.stringify({ error: 'Error logging in' }), {
-      status: 402,
+    return new Response(JSON.stringify({ error: error.response.data }), {
+      status: 400,
       headers: {
         'Content-Type': 'application/json'
       }
     });
   }
 }
-
