@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import axios from '@/utils/axiosConfig';
 import Button from '@/components/common/Button/index';
 
-
 function RegistrationForm() {
     const [apiKey, setApiKey] = useState('');
     const [email, setEmail] = useState('');
@@ -16,7 +15,7 @@ function RegistrationForm() {
     async function submitRegistration(e) {
         e.preventDefault();
         try {
-            await axios.post("/api/register", { email, username, password });
+            await axios.post("/api/register", { email, username, password, api_key : apiKey });
             setMessage("account successfully made");
         } catch (err) {
             if (err.response && err.response.data) {

@@ -1,6 +1,6 @@
 import axios from '@/utils/axiosConfig';
 
-export async function POST(request) {
+export async function POST() {
   try {
     const response = await axios.post('http://127.0.0.1:8000/api/logout');
     return new Response(JSON.stringify(response.data), {
@@ -20,4 +20,3 @@ export async function POST(request) {
     });
   }
 }
-
