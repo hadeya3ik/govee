@@ -111,21 +111,6 @@ export async function setDeviceBrightness(sku, device, value) {
   }
 }
 
-// export async function setDeviceBrightness(sku, device, value) {
-//   try {
-//     const req = await axios.post("http://localhost:8000/brightness", {
-//       sku, 
-//       device,
-//       value
-//     });
-//     console.log('Response:', req.data);
-//   } catch (error) { {
-//       alert('Error toggling the light');
-//     }
-//     console.error(error);
-//   }
-// }
-
 export async function setDeviceTemperature(sku, device, value) {
   if (device == "n/a" && sku == "n/a") {
     return
