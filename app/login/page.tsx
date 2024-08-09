@@ -24,7 +24,7 @@ function Page() {
     });
   }, [loginToggle]);
 
-  function submitLogout(e) {
+  function submitLogout(e : React.FormEvent<HTMLFormElement> ) {
     e.preventDefault();
     axios.post("/api/logout")
     .then(function(res) {
@@ -40,9 +40,6 @@ function Page() {
   return (
     <div className='pb-12 h-screen flex flex-col items-centerjustify-center'>
       <h2 className='text-4xl pb-4'>{currentUser}</h2>
-      <button className='self-end' onClick={submitLogout}>
-        <h2 className='text-4xl pb-4'>LOGOUT</h2>
-      </button>
       <ResizablePanel> 
         {loginToggle && <>
             <LoginForm/>
