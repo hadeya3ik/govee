@@ -17,7 +17,7 @@ export async function POST(request) {
       }
     }, {
       headers: {
-        'Govee-API-Key': 'bdbf0e09-31c3-465d-948b-2bc617b29da4', // Replace with your actual API key
+        'Govee-API-Key': 'bdbf0e09-31c3-465d-948b-2bc617b29da4', 
         'Content-Type': 'application/json'
       }
     });

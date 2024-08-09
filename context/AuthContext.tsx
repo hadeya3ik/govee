@@ -1,34 +1,50 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, ReactNode } from 'react';
 
-const AuthContext = createContext();
-
-export function useAuth() {
-    return useContext(AuthContext);
+interface AuthContextType {
+    isAuthenticated: boolean;
+    accessToken: string | null;
+    userEmail: string | null;
+    userName: string | null;
+    login: (token: string, email: string, name: string) => void;
+    logout: () => void;
 }
 
-export const AuthProvider = ({ children }) => {
-    const [accessToken, setAccessToken] = useState(null);
-    const [userEmail, setUserEmail] = useState(null);
-    const [userName, setUserName] = useState(null);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-    const login = (token, email, name) => {
-        setAccessToken(token);
-        setUserEmail(email);
-        setUserName(name);
-    };
+export function useAuth() {
+  const context = useContext(AuthContext);
+  if (!context) {
+    throw new Error('useAuth must be used within an AuthProvider');
+  }
+  return context;
+}
 
-    const logout = () => {
-        setAccessToken(null);
-        setUserEmail(null);
-        setUserName(null);
+interface AuthProviderProps {
+  children: ReactNode;
+}
 
-    };
+export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [userEmail, setUserEmail] = useState<string | null>(null);
+  const [userName, setUserName] = useState<string | null>(null);
 
-    const isAuthenticated = !!accessToken;
+  const login = (token: string, email: string, name: string) => {
+    setAccessToken(token);
+    setUserEmail(email);
+    setUserName(name);
+  };
 
-    return (
-        <AuthContext.Provider value={{ isAuthenticated, accessToken, login, logout, userEmail, userName }}>
-            {children}
-        </AuthContext.Provider>
-    );
+  const logout = () => {
+    setAccessToken(null);
+    setUserEmail(null);
+    setUserName(null);
+  };
+
+  const isAuthenticated = !!accessToken;
+
+  return (
+    <AuthContext.Provider value={{ isAuthenticated, accessToken, login, logout, userEmail, userName }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };

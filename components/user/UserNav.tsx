@@ -31,7 +31,7 @@ function UserNav() {
     });
   }, []);
 
-  function submitRegistration(e) {
+  function submitRegistration(e : React.FormEvent) {
     e.preventDefault();
     axios.post("/api/register", { email, username, password })
     .then(function(res) {
@@ -42,7 +42,7 @@ function UserNav() {
     });
   }
 
-  function submitLogin(e) {
+  function submitLogin(e : React.FormEvent) {
     e.preventDefault();
     axios.post("/api/login", { email, password })
     .then(function(res) {
@@ -50,7 +50,7 @@ function UserNav() {
     });
   }
 
-  function submitLogout(e) {
+  function submitLogout(e : React.FormEvent) {
     e.preventDefault();
     axios.post("/api/logout")
     .then(function(res) {

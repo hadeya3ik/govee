@@ -4,14 +4,21 @@ import * as Slider from '@radix-ui/react-slider';
 import { useState, useEffect } from 'react';
 import {setDeviceTemperature} from '@/api/index';
 
-export default function TempSlider({ sku, device, value,  onChange }) {
+interface SliderProps {
+  sku: string; 
+  device: string; 
+  value: number; 
+  onChange: (value: number) => void; 
+}  
+
+export default function TempSlider({ sku, device, value,  onChange } : SliderProps) {
   const [color, setColor] = useState('rgba(255,204,151,1)');
 
   useEffect(() => {
     setColor(getColorFromPosition((value - 2000) * 100 / (9000 - 2000)));
   }, [value]);
 
-  const getColorFromPosition = (position) => {
+  const getColorFromPosition = (position : number) => {
     const startColor = [255, 223, 191];
     const midColor = [255, 255, 255]; 
     const endColor = [196, 229, 235];
@@ -27,10 +34,9 @@ export default function TempSlider({ sku, device, value,  onChange }) {
     return `rgb(${color.join(',')})`;
   };
 
-  const handleChange = (v) => {
+  const handleChange = (v : number[]) => {
     onChange(v[0]);
-    // Map the initial temperature value (2000-9000) to the slider value (0-100)
-    const x = (v[0] - 2000) * 100 / (9000 - 2000);
+    const x = (v[0] - 2000) * 100 / (9000 - 2000); // maps the initial temperature value (2000-9000) to the slider value (0-100)
     const newColor = getColorFromPosition(x);
     console.log(newColor)
     setDeviceTemperature(sku, device, v[0]);

@@ -7,17 +7,8 @@ import Button from '@/components/common/Button/index';
 import LightControls from '@/components/controls/LightControls';
 import { parseColor } from '@react-stately/color';
 import BulbDisplay from '@/components/controls/BulbDisplay';
-import {setDeviceLight, getDeviceState} from '@/api/index'
-import { rgbaToHsva, hsvaToHsla} from '@uiw/color-convert';
 
-function getRGBFromNumber(number) {
-    const r = (number >> 16) & 0xFF;
-    const g = (number >> 8) & 0xFF;
-    const b = number & 0xFF;
-    return { r, g, b };
-  }
-
-const getColorFromPosition = (position) => {
+const getColorFromPosition = (position : number) => {
     const startColor = [255, 223, 191];
     const midColor = [255, 255, 255]; 
     const endColor = [196, 229, 235];
@@ -33,11 +24,17 @@ const getColorFromPosition = (position) => {
     return color;
   };
 
-function mapValueToRange(position, inMin, inMax, outMin, outMax) {
+function mapValueToRange(position : number, inMin : number, inMax : number, outMin : number, outMax : number ) {
     return (position - inMin) * (outMax - outMin) / (inMax - inMin) + outMin;
 }
 
-const DummyWidget = ({ deviceName, device, sku}) => {
+interface widgetProps {
+    deviceName: string, 
+    device : string, 
+    sku : string,
+}
+
+const DummyWidget = ({ deviceName, device, sku} : widgetProps) => {
     const [color, setColor] = useState(parseColor('hsl(329, 75%, 56%)'));
     const [tempColor, setTempColor] = useState(parseColor('rgba(255,224,194,1)'));
     const [tempLevel, setTempLevel] = useState(50);

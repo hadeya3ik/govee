@@ -1,9 +1,10 @@
 'use client'
-import React from 'react'
+import React, {ReactNode} from 'react'
 import { AnimatePresence, motion } from "framer-motion";
 import useMeasure from "react-use-measure";
 
-function ResizablePanel({children}) {
+
+function ResizablePanel({children} : {children : ReactNode}) {
     let [ref, { height }] = useMeasure();
   
     return (<motion.div
@@ -12,7 +13,7 @@ function ResizablePanel({children}) {
             <AnimatePresence>
                 <motion.div 
                     ref={ref} 
-                    initial={{ opacity: 0 , transition: { duration: 0.05 } }}
+                    initial={{ opacity: 0 }}
                     animate={{ opacity: 1, transition: { duration: 0.05 } }}
                     exit={{ opacity: 0, transition: { duration: 0.05} }}
                     >

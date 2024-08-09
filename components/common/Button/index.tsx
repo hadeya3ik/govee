@@ -1,34 +1,45 @@
 'use client'
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, ReactNode } from 'react';
 import gsap from 'gsap';
 
-export default function Index({ children, isActive, setIsActive, ...attributes }) {
-  // const [isActive, setIsActive] = useState(false);
-  const circle = useRef(null);
-  let timeline = useRef(null);
-  let timeoutId = null;
+interface IndexProps extends React.HTMLAttributes<HTMLDivElement> {
+  children: ReactNode;
+  isActive: boolean;
+  setIsActive: (active: boolean) => void;
+}
+
+export default function Index({ children, isActive, setIsActive, ...attributes }: IndexProps) {
+  const circle = useRef<HTMLDivElement>(null);
+  const timeline = useRef<gsap.core.Timeline | null>(null);
+  let timeoutId: NodeJS.Timeout | null = null;
 
   useEffect(() => {
-    timeline.current = gsap.timeline({ paused: true });
-    timeline.current
-      .to(circle.current, { top: "-25%", width: "150%", duration: 0.4, ease: "power3.in" }, "enter")
-      .to(circle.current, { top: "-150%", width: "125%", duration: 0.25 }, "exit");
+    if (circle.current) {
+      timeline.current = gsap.timeline({ paused: true });
+      timeline.current
+        .to(circle.current, { top: "-25%", width: "150%", duration: 0.4, ease: "power3.in" }, "enter")
+        .to(circle.current, { top: "-150%", width: "125%", duration: 0.25 }, "exit");
+    }
   }, []);
 
   const manageMouseEnter = () => {
     if (!isActive) {
       if (timeoutId) clearTimeout(timeoutId);
-      timeline.current.tweenFromTo('enter', 'exit');
+      if (timeline.current) {
+        timeline.current.tweenFromTo('enter', 'exit');
+      }
     }
-  }
+  };
 
   const manageMouseLeave = () => {
     if (!isActive) {
       timeoutId = setTimeout(() => {
-        timeline.current.play();
+        if (timeline.current) {
+          timeline.current.play();
+        }
       }, 300);
     }
-  }
+  };
 
   const handleClick = () => {
     setIsActive(!isActive);
@@ -37,7 +48,7 @@ export default function Index({ children, isActive, setIsActive, ...attributes }
     } else {
       gsap.to(circle.current, { top: "100%", left: "0%", width: "100%", height: "150%", x: "0%", y: "0%", duration: 0.4, ease: "power3.in" });
     }
-  }
+  };
 
   return (
     <div 
