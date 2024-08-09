@@ -68,7 +68,7 @@ export async function setDeviceColor(sku : string, device : string, r : number, 
       }
 
       return data.payload.capabilities;
-    } catch (error : unknown) {
+    } catch (error : unknown) {    
       if (axios.isAxiosError(error)) {
         alert(error.message);
         console.error(error);
