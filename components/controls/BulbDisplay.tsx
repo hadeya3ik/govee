@@ -1,14 +1,15 @@
 'use client'
 import { useEffect } from "react";
 import { motion } from "framer-motion";
+import { Color } from '@react-stately/color';
 
-const BulbDisplay = ({ color, brightness }) => {
+interface BulbDisplayProps{
+  color : Color, 
+  brightness : number
+}
+
+const BulbDisplay = ({ color, brightness } : BulbDisplayProps) => {
   const gradient = `radial-gradient(#1E1E1E, ${color.toString('css')})`;
-  // const gradient = `radial-gradient(${color.toString('css')}, #1E1E1E)`;
-
-  // useEffect(() => {
-  //   console.log(color.toString('css'));
-  // }, [color]);
 
   return (
     <>
