@@ -1,25 +1,28 @@
-'use client'
+'use client';
 import React, { useState } from 'react';
 import axios from '@/utils/axiosConfig';
 import Button from '@/components/common/Button/index';
+import { AxiosError } from 'axios';
 
 function RegistrationForm() {
-    const [apiKey, setApiKey] = useState('');
-    const [email, setEmail] = useState('');
-    const [username, setUsername] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const [message, setMessage] = useState('');
-    const [button, setButton] = useState(true);
+    const [apiKey, setApiKey] = useState<string>('');
+    const [email, setEmail] = useState<string>('');
+    const [username, setUsername] = useState<string>('');
+    const [password, setPassword] = useState<string>('');
+    const [error, setError] = useState<string>('');
+    const [message, setMessage] = useState<string>('');
+    const [button, setButton] = useState<boolean>(true);
 
-    async function submitRegistration(e) {
+    async function submitRegistration(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         try {
-            await axios.post("/api/register", { email, username, password, api_key : apiKey });
-            setMessage("account successfully made");
-        } catch (err) {
-            if (err.response && err.response.data) {
-                const {detail} = err.response.data.error
+            await axios.post("/api/register", { email, username, password, api_key: apiKey });
+            setMessage("Account successfully created");
+            setError('');
+        } catch (err: unknown) {
+            const error = err as AxiosError;
+            if (error.response && error.response.data) {
+                const { detail } = error.response.data as { detail: string };
                 setError(JSON.stringify(detail));
             } else {
                 setError('An unknown error occurred.');
@@ -63,7 +66,7 @@ function RegistrationForm() {
                 <button type="submit">
                     <div className='border border-custom-main rounded-full w-fit mb-4'>
                         <Button isActive={button} setIsActive={setButton}>
-                            <p className='px-8'>register</p>
+                            <p className='px-8'>Register</p>
                         </Button>
                     </div>
                 </button>
