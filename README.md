@@ -2,9 +2,9 @@
 # Custom Govee Lights Controller
 This repository contains a custom web application built with Next.js to control Govee smart lights. The application provides an enhanced user experience, offering a more minimalistic interface.
 
+in order to retrieve the user-assigned names of the devices, For Govee API Control: Retrieve Govee-API-Key as described [here](https://developer.govee.com/reference/apply-you-govee-api-key), setup integration with API type ad fill your API key.
 
-
-## Installation
+## Getting Started
 1. Clone the repository
 ```bash
 git clone https://github.com/hadeya3ik/govee.git
