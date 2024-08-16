@@ -1,6 +1,6 @@
 
 # Custom Govee Lights Controller
-This repository contains a custom web application built with Next.js to control Govee smart lights. The application provides a more minimalistic interface.
+This repository contains a custom web application built with Next.js to control Govee smart lights. The application provides a more minimalistic interface. View the [demo](https://govee-kohl.vercel.app/demo).
 
 ## Features 
 Minimal Govee Home API to control Govee smart light devices (bulbs, LED strips).
