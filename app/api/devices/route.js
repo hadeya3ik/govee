@@ -1,10 +1,11 @@
 import axios from 'axios';
+const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
 export async function GET() {
   try {
     const response = await axios.get("https://openapi.api.govee.com/router/api/v1/user/devices", {
       headers: {
-        "Govee-API-Key": "bdbf0e09-31c3-465d-948b-2bc617b29da4",
+        "Govee-API-Key": apiKey,
         "Content-Type": 'application/json'
       }
     });

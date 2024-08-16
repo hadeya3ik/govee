@@ -1,8 +1,7 @@
 'use client'
-import React, {useState, useEffect} from 'react'
-import { AnimatePresence, motion } from "framer-motion";
+import React from 'react'
+import { motion } from "framer-motion";
 import DummyWidget from '@/components/Kanban/DummyWidget';
-import { getDevices } from '@/api/index';
 const DynamicClock = dynamic(() => import('@/components/common/Clock'), { ssr: false });
 import dynamic from 'next/dynamic';
 function play() {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+const apiKey = process.env.NEXT_PUBLIC_API_KEY;
 
 export async function POST(request) {
   const { sku, device, value } = await request.json();
@@ -23,7 +24,7 @@ export async function POST(request) {
       }
     }, {
       headers: {
-        "Govee-API-Key": "bdbf0e09-31c3-465d-948b-2bc617b29da4",
+        "Govee-API-Key": apiKey,
         "Content-Type": 'application/json'
       }
     });
